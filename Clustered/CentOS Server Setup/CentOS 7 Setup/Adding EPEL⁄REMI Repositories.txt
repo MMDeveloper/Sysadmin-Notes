@@ -1,0 +1,20 @@
+### I recommend verifying the RPM names as they do get updated once in a while
+
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+
+
+### Now go set the repositories as enabled:
+vim /etc/yum.repos.d/epel.repo
+[epel]
+enabled=1
+
+vim /etc/yum.repos.d/remi.repo
+[remi]
+enabled=1
+
+[remi-php56]
+enabled=1
+
+### Update repository cache ###
+yum update

@@ -1,0 +1,28 @@
+### install openSSL if not installed already    ###
+yum install openssl
+
+
+### make and go to nginx ssl work directory     ###
+mkdir -p /etc/nginx/ssl
+cd /etc/nginx/ssl/
+
+
+### create key and signing request              ###
+openssl genrsa -aes256 -out server.key 2048
+openssl req -new -key server.key -out server.csr
+
+
+### remove passphrase from key                  ###
+cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+
+
+### IF USING VALID CERTIFICATE                  ###
+### Submit your CSR to your CA                  ###
+### Your CA will return a signed crt file      ###
+### append CA cert to your local crt            ###
+cat DigiCertCA.crt >> server.crt
+
+
+### IF SELF SIGNING SSL CERT                    ###
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
