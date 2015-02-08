@@ -1,5 +1,0 @@
-copy GD_Cert.pfx file to linux machine in /etc/nginx/ssl
-
-openssl pkcs12 -in GD_Cert.pfx -clcerts -nokeys -out server.crt
-openssl pkcs12 -in GD_Cert.pfx -nocerts -nodes -out server.key
-openssl rsa -in server.key -out server.key
