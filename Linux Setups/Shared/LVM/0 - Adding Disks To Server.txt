@@ -41,4 +41,5 @@ echo 1 > /sys/class/scsi_device/device/rescan
 
 
 ### If you had a new disk, and not simply expanded an existing one, continue, if you expanded an
-### existing disk, skip ahead to ############ 
+### existing disk, skip ahead to the bottom of
+Managing Logical Volumes
