@@ -1,0 +1,14 @@
+### See Installing the Epel/Remi repositories
+
+cd ~
+mkdir temp
+cd temp
+wget -l 1 -nd -nc -r -A.rpm http://download.gluster.org/pub/gluster/glusterfs/LATEST/CentOS/epel-6Server/x86_64/
+
+yum install glusterfs-3.6.2-1.el6.x86_64.rpm glusterfs-api-3.6.2-1.el6.x86_64.rpm glusterfs-cli-3.6.2-1.el6.x86_64.rpm glusterfs-fuse-3.6.2-1.el6.x86_64.rpm glusterfs-geo-replication-3.6.2-1.el6.x86_64.rpm glusterfs-libs-3.6.2-1.el6.x86_64.rpm glusterfs-server-3.6.2-1.el6.x86_64.rpm
+
+service glusterd restart
+service start glusterd
+service start glusterfsd
+chkconfig --level 345 glusterd on
+chkconfig --level 345 glusterfsd on

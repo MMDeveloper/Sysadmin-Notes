@@ -1,0 +1,17 @@
+### What we're going to setup is called a Replicated Gluster Cluster. This acts just like microsoft's DFS replication. If each storage node only has a 10gb drive to offer to the cluster, the storage pool is only 10gb (not the sum of all storage pool drives because each server will have a copy of each file, this provides fault tolerance). There are other ways to setup a Gluster Cluster but I won't cover that here, you can google it.
+
+### On the web1 server, run the following command
+gluster peer probe 192.168.1.2
+
+### confirm the gluster service sees the other gluster node now
+gluster peer status
+
+### On each GlusterFS Node, we're going to mount the block device to be used as the storage disk for that node.
+fdisk /dev/xvdb ### make a single primary partition spanning entire disk
+mkfs.ext4 /dev/xvdb1
+mkdir -p /export/xvdb1 && mount /dev/xvdb1 /export/xvdb1 && mkdir -p /export/xvdb1/brick
+echo "/dev/xvdb1 /export/xvdb1 ext4 defaults 0 0"  >> /etc/fstab
+
+### Back to web1, run this to create the gluster volume
+gluster volume create gv0 replica 2 192.168.1.1:/export/xvdb1/brick 192.168.1.2:/export/xvdb1/brick
+gluster volume start gv0

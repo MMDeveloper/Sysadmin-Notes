@@ -1,0 +1,34 @@
+global_defs {
+    notification_email {
+        sysadmin@emaildomain.com
+    }
+
+    notification_email_from sysadmin@emaildomain.com
+    smtp_server mysmtpserver.mydomain.com
+    smtp_connect_timeout 30
+    lvs_id haproxy0_master
+}
+
+vrrp_script chk_loadbalancedservices {
+    script "/etc/keepalived/check.sh"
+    interval 2
+    weight 2
+}
+
+vrrp_instance haproxy0_master {
+    interface eth0
+    state MASTER
+    virtual_router_id 51
+    priority 101          # 101 on master, lower on backups
+    smtp_alert
+    authentication {
+        auth_type PASS
+        auth_pass Q2W3E4R5t6y7u8i9o0p
+    }
+    virtual_ipaddress {
+         192.168.0.2
+    }
+    track_script {
+         chk_loadbalancedservices
+    }
+}

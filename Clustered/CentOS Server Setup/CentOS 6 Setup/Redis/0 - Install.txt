@@ -1,0 +1,5 @@
+### See Installing the Epel/Remi repositories
+
+yum install redis
+chkconfig --add redis
+chkconfig --level 345 redis on

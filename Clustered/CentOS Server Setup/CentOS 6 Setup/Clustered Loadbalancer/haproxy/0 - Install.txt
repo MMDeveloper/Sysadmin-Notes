@@ -1,0 +1,4 @@
+yum install haproxy
+chkconfig --add haproxy
+chkconfig --level 345 haproxy on
+service restart haproxy
