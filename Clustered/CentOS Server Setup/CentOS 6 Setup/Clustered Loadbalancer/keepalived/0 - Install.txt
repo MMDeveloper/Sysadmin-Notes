@@ -1,4 +1,0 @@
-yum install keepalived
-chkconfig --add keepalived
-chkconfig --level 345 keepalived on
-service restart keepalived
