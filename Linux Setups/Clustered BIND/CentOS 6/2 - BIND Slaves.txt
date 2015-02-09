@@ -1,0 +1,8 @@
+The master DNS server must have "type" of "master" for all non-stock zones it's serving. In the example config the two views utilize a parameter called "allow-transfer" which can either be a list of IP addresses or ACLs that specify all of your BIND slave servers. There are two ways to setup BIND slave servers, either via push updates (preferred method) or by polling. Push updates are immediate updates on slave servers while polling involves each slave server polling the master for updates on a schedule (which obviously causes unecessary BIND communication and lagged DNS updates). I will go over setting up PUSH updates.
+
+Once you follow the Install instructions for BIND on your BIND slave server(s), copy the named.conf file from the master onto each slave. The reason for this, BIND replication will not transfer new zones, only updates to zones. Each slave server must already have knowledge of DNS zones for it to process pushed updates for them.
+
+Once you've copied the named.conf file to the slaves, for each slave, you must make the following modifications:
+
+ - for each zone, change the "type" from "master" to "slave".
+ - for each slave zone, add a new parameter: masters { 192.168.0.7; }; #where 192.168.0.7 is the IP address of the BIND master server

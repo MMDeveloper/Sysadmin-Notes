@@ -19,6 +19,8 @@ enabled=1
 yum update
 
 yum install MariaDB-client MariaDB-Galera-server galera
+chkconfig --add mysql
+chkconfig --level 345 mysql on
 service mysql stop
 
 vim /etc/my.cnf.d/server.cnf

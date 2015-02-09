@@ -1,6 +1,7 @@
 yum install bind bind-utils bind-chroot
 
-systemctl enable bind.service
+chkconfig --add bind
+chkconfig --level 345 bind on
 
 cd /var/named/chroot/
 mv /var/named/
