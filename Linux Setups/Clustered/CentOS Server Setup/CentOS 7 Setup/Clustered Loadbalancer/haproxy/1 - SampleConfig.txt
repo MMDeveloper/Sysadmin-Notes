@@ -1,0 +1,140 @@
+global
+    log         127.0.0.1 local0
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    #user        haproxy
+    #group       haproxy
+    daemon
+    stats socket /var/lib/haproxy/stats level admin
+    maxconn     4000
+    tune.ssl.default-dh-param 2048
+
+
+defaults
+    log                     global
+    option                  dontlognull
+    option                  redispatch
+    retries                 3
+    timeout http-request    5s
+    timeout queue           1m
+    timeout connect         5s
+    timeout client          5s
+    timeout server          10s
+    timeout http-keep-alive 10s
+    timeout check           10s
+
+frontend http-in 
+    bind :80
+    mode http
+    option httplog
+    
+    stick-table type ip size 100k expire 30s store conn_cur,conn_rate(10s),http_req_rate(10s),http_err_rate(10s)
+    # Reject if client has more than X concurrent connections
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]active-connections, if { src_conn_cur ge 100 }
+    # Reject if client has passed the HTTP connection rate
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]connection-rate, if { src_conn_rate ge 300 }
+    # Reject if client has passed the HTTP error rate
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]error-rate, if { sc0_http_err_rate() gt 100 }
+    # Reject if client has passed the HTTP request rate
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]request-rate, if { sc0_http_req_rate() gt 300 }
+    tcp-request connection track-sc0 src
+
+    #acls
+    acl use_be_slowdown_chump req.fhdr(X-Haproxy-Throttle) -m found
+
+    #backend
+    use_backend be_slowdown_chump if use_be_slowdown_chump
+    default_backend be_webfarm0_80
+
+frontend https-in 
+    bind :443 ssl crt /etc/haproxy/ssl/server.pem ciphers ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4 no-sslv3
+    mode http
+    option httplog
+    
+    stick-table type ip size 100k expire 30s store conn_cur,conn_rate(10s),http_req_rate(10s),http_err_rate(10s)
+    # Reject if client has more than X concurrent connections
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]active-connections, if { src_conn_cur ge 100 }
+    # Reject if client has passed the HTTP connection rate
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]connection-rate, if { src_conn_rate ge 300 }
+    # Reject if client has passed the HTTP error rate
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]error-rate, if { sc0_http_err_rate() gt 100 }
+    # Reject if client has passed the HTTP request rate
+    http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]request-rate, if { sc0_http_req_rate() gt 300 }
+    tcp-request connection track-sc0 src
+    
+    reqadd X-Forwarded-Proto:\ https
+    rspadd Strict-Transport-Security:\ max-age=31536000;\ includeSubDomains
+
+    #acls
+    acl use_be_slowdown_chump req.fhdr(X-Haproxy-Throttle) -m found
+
+    #backends
+    use_backend be_slowdown_chump if use_be_slowdown_chump
+    default_backend be_webfarm0_443
+
+frontend ldaps-in
+    bind :636
+    mode tcp
+    option tcplog
+    use_backend be_ldapservers
+
+frontend dbfarm0
+    bind :33060
+    mode tcp
+    option tcplog
+    default_backend be_dbfarm0
+
+frontend stats
+    bind 0.0.0.0:8080
+    mode http
+    stats enable
+    stats uri /
+    stats auth  admin:ASDfghJKl
+    stats admin if TRUE
+
+
+backend be_ldapservers
+    mode tcp
+    balance roundrobin
+    option allbackups
+    server DC01 DC01.fqdn.com:636 check inter 5s weight 2 rise 3
+    server DC02 DC02.fqdn.com:636 check inter 5s weight 2 rise 3
+    server DC03 DC03.fqdn.com:636 check inter 5s weight 1 rise 3 backup
+    server DC04 DC04.fqdn.com:636 check inter 5s weight 1 rise 3 backup
+
+
+backend be_webfarm0_80
+    mode http
+    balance roundrobin
+    option redispatch
+    option forwardfor
+    option http-server-close
+    server web1 192.168.1.1:180 check inter 4s weight 1 rise 3
+    server web2 192.168.1.2:180 check inter 4s weight 1 rise 3
+
+backend be_webfarm0_443
+    mode http
+    balance roundrobin
+    option redispatch
+    option forwardfor
+    option http-server-close
+    server web1 192.168.1.1:1443 check inter 3s weight 1 rise 3
+    server web2 192.168.1.2:1443 check inter 3s weight 1 rise 3
+
+backend be_dbfarm0
+    mode tcp
+    balance roundrobin
+    option tcplog
+    option tcpka
+    option mysql-check user haproxy_check
+    server db0 192.168.3.1:3306 check inter 5s weight 2 rise 8
+    server db1 192.168.3.2:3306 check inter 5s weight 2 rise 8
+    server db2 192.168.3.3:3306 check inter 5s weight 2 rise 8
+    server db3 192.168.3.4:3306 check inter 5s weight 1 rise 8
+
+
+backend be_slowdown_chump
+    mode http
+    timeout tarpit 15s
+    errorfile 503 /usr/share/haproxy/ratelimit.http
+    errorfile 504 /usr/share/haproxy/ratelimit.http

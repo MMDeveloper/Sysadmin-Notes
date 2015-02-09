@@ -1,0 +1,5 @@
+### See Installing the Epel/Remi repositories
+
+yum install nginx
+chkconfig --add nginx
+chkconfig --level 345 nginx on

@@ -1,0 +1,22 @@
+vim /opt/remi/php56/root/etc/php-fpm.conf
+###change include=/opt/remi/php56/root/etc/php-fpm.d/*.conf to
+include=/var/www/internal/conf/php-fpm/pools
+
+
+cp /opt/remi/php56/root/etc/php-fpm.d/www.conf /var/www/internal/conf/php-fpm/pools/www0.conf
+vim /var/www/internal/conf/php-fpm/pools/www0.conf
+
+### change [www] to [www0]
+### comment out the 'listen' lines near the top
+### by default there's only one not already commented out
+### add these three lines
+listen = /var/run/php56-fpm-0.sock
+listen.owner = nginx
+listen.group = nginx
+
+
+cp /var/www/internal/conf/php-fpm/pools/www0.conf /var/www/internal/conf/php-fpm/pools/www1.conf
+vim /var/www/internal/conf/php-fpm/pools/www1.conf
+### change [www0] to [www1]
+### change listen = /var/run/php56-fpm-0.sock to 
+listen = /var/run/php56-fpm-1.sock

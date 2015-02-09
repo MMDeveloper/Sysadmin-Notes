@@ -1,0 +1,24 @@
+### /usr/local/etc/csync2.cfg
+#nossl * *;
+group wwwdir {
+        host web1@192.168.1.1;
+        host web2@192.168.1.2;
+        key /etc/csync2_ssl_cert.key;
+
+        include /var/www/internal;
+        exclude *~ *lost+found*;
+
+        action {
+                pattern /var/www/internal/conf/nginx/sites-enabled/*;
+                exec "service nginx reload";
+                logfile "/var/log/csync2_action_nginx.log";
+        }
+        
+        action {
+                pattern /var/www/internal/conf/php-fpm/*;
+                exec "service php56-php-fpm restart";
+                logfile "/var/log/csync2_action_phpfpm.log";
+        }
+
+        auto younger;
+}

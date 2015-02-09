@@ -1,0 +1,2 @@
+yum install keepalived
+systemctl enable keepalived.service
