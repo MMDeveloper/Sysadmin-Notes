@@ -1,4 +1,5 @@
 ### See Installing the Epel/Remi repositories
+### Follow these steps on every Redis server
 
 yum install redis
 chkconfig --add redis

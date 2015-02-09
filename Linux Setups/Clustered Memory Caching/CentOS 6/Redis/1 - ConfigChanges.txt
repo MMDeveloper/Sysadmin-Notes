@@ -1,0 +1,17 @@
+### Update any existing config directives and add any missing ones
+### Follow these steps on every Redis server
+
+daemonize yes
+
+### generate a unique password string here
+requirepass XUna5uq6p4qach5wra8rucutespuXe
+
+### rename the config command to something obscure for security reasons
+rename-command CONFIG 30abfb3034b01b5ffccbb3d46630f14953d9967f94dde5
+
+### cluster options
+port 7000
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
