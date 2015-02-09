@@ -1,0 +1,26 @@
+### Now let's see what new disks appear on the system, lets re-run this previous command
+ls -lh /dev/sd*
+
+### You should now see a new disk that wasn't present the last time we did this, we'll
+### assume it is now /dev/sdc. We need to fdisk/prep this drive to be used in LVM 
+fdisk /dev/sdc
+
+### make sure there are no partitions on this drive
+p
+
+### if there are any partitions, remove them, else continue
+### this key sequence will create a single partition, of type Linux-LVM spanning the entire disk.
+n
+p
+1
+[enter]
+[enter]
+t
+8e
+w
+
+### Now we need to "initialize" the new disk partition as a LVM's PV.
+pvcreate /dev/sdc1
+pvdisplay
+
+### You should see your newly created sdc1 PV
