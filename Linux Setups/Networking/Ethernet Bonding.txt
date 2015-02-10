@@ -40,7 +40,7 @@ SLAVE=yes
 USERCTL=no
 NM_CONTROLLED=no
 
-vim /etc/sysconfig/network-scripts/ifcfg-eth0
+vim /etc/sysconfig/network-scripts/ifcfg-eth1
 DEVICE=eth1
 BOOTPROTO=none
 ONBOOT=yes
