@@ -1,0 +1,69 @@
+### There are several bonding types, some require special programming at the Switch level, some do not.
+### You should research which bonding method is right for you and your equipment.
+
+### First let's load the bonding module if it's not already loaded
+modprobe --first-time bonding 
+modinfo bonding
+
+### Now we need to create a config file for the virtual bond interface
+vim /etc/sysconfig/network-scripts/ifcfg-bond0
+
+DEVICE=bond0
+IPADDR=192.168.0.7
+NETMASK=255.255.255.0
+GATEWAY=192.168.0.1
+ONBOOT=yes
+BOOTPROTO=none
+USERCTL=no
+NM_CONTROLLED=no
+
+### These are the bonding options I mentioned earlier, you need to use your own research
+### to choose the appropriate options
+BONDING_OPTS="bonding parameters separated by spaces"
+
+
+
+
+
+### Now, for each physical ethernet adaptor that will participate in the bond
+### edit their respective ifcfg file in /etc/sysconf/network-scripts/
+### remote all existing parameters from the file except device name and UUID (if present)
+### Here's an example for my eth0 and eth1
+
+vim /etc/sysconfig/network-scripts/ifcfg-eth0
+
+DEVICE=eth0
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+USERCTL=no
+NM_CONTROLLED=no
+
+vim /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth1
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+USERCTL=no
+NM_CONTROLLED=no
+
+
+
+
+### Now restart your networking services
+service network restart
+#  OR
+systemctl restart network.service
+#  OR
+### whatever your distro syntax is
+
+
+### View the stats of your new bonded connection
+ifconfig bond0
+cat /proc/net/bonding/bond0
+
+
+
+More information on bonding and bonding options can be seen at https://www.kernel.org/doc/Documentation/networking/bonding.txt
