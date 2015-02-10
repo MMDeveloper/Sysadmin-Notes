@@ -1,4 +1,35 @@
-### See Installing the Epel/Remi repositories
+### As of the time of this writing, redis multi-master clustering is unstable
+### Perform these steps on each redis node
 
-yum install redis
+cd ~
+wget https://github.com/antirez/redis/archive/3.0.0-rc3.tar.gz
+gunzip 3.0.0-rc3.tar.gz
+tar -xvf 3.0.0-rc3.tar
+cd 3.0.0-rc3
+
+yum install gcc
+
+make && make install
+
+vim /usr/lib/systemd/system/redis.service
+
+### place this info in the file
+[Unit]
+Description=Redis persistent key-value database
+After=network.target
+
+[Service]
+ExecStart=/root/redis-3.0.0-rc3/src/redis-server /etc/redis.conf
+ExecStop=/root/redis-3.0.0-rc3/src/redis-cli shutdown
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+### reload the systemd daemon to see the new service
+systemctl daemon-reload
+
+### enable the redis service
 systemctl enable redis.service
