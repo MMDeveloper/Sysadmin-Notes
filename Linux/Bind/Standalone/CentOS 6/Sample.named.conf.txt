@@ -5,10 +5,6 @@ acl internals {
 	172.16.0.0/16;
 };
 
-acl slaves_int {
-	127.0.0.1;
-};
-
 acl query_allowed {
 	any;
 };
@@ -31,15 +27,13 @@ options {
 	   reduce such attack surface 
 	*/
 
-	forwarders { 208.67.222.222; 208.67.222.220; 8.8.8.8; 192.168.0.1; };
+	forwarders { 208.67.222.222; 208.67.222.220; 8.8.8.8; };
 
 	# It's your choice if you want this on or not
 	dnssec-enable no;
 	dnssec-validation no;
 	dnssec-lookaside auto;
-	
-	#default push notifications to slaves
-	notify yes;
+	allow-transfer {127.0.0.1;};
 
 
 	bindkeys-file "/var/named/chroot/etc/named.iscdlv.key";
@@ -58,7 +52,7 @@ logging {
 view "internal" {
 	match-clients { internals; };
 	allow-query     {internals;};
-	allow-transfer {slaves_int;};
+	
 	include "/var/named/chroot/etc/named.rfc1912.zones";
 
 	zone "." IN {
@@ -83,7 +77,6 @@ view "external" {
 	recursion no;
 	match-clients { !internals; };
 	allow-query     {!internals;};
-	allow-transfer {internals;};
 
 	# If local.mm was a world-visible website domain
 	zone "local.mm" {
