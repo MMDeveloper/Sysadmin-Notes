@@ -1,1 +1,16 @@
-../../Clustered/CentOS 6/0 - Install.txt
+yum install bind bind-utils bind-chroot
+
+chkconfig --add bind
+chkconfig --level 345 bind on
+
+cd /var/named/chroot/
+mv /var/named/
+
+### move data files to chroot directory
+find /var/named/ -mindepth 1 -maxdepth 1 -not -iname "chroot" -exec mv {} /var/named/chroot{} \;
+mv /etc/named* /var/named/chroot/etc/
+ln -sf /var/named/chroot/etc/named.conf /etc/named.conf
+
+### reset permissions
+chown -R named:named /var/named/chroot/var/named/
+chown -R named:named /var/named/chroot/etc/

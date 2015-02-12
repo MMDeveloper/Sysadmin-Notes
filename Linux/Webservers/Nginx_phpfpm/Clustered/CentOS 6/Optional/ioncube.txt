@@ -1,0 +1,20 @@
+### download the ioncube.tar.gz of loaders from their website https://www.ioncube.com/loaders.php
+
+copy ioncube.tar.gz to /var/www/internal/
+gunzip ioncube.tar.gz
+tar -xvf ioncube.tar
+rm -f ioncube.tar
+
+### from here I would remove any loaders in the ioncube
+### directory except the one for php5.6
+cd ioncube
+rm -f ioncube_loader_lin_4*
+rm -f ioncube_loader_lin_5.[0,1,2,3,4,5]*
+rm ioncube_loader_lin_5.6_ts.so
+
+
+
+vim /var/www/internal/conf/php-fpm/php.ini
+zend_extension=/var/www/internal/ioncube/ioncube_loader_lin_5.6.so
+
+### Note, if you have the Zend encoder already installed, make sure that the ioncube extension appears BEFORE the zend extension in the php.ini file. If the zend encoder is loaded first, ioncube will not function correctly. I have no run into this but I've seen this in their support forums.

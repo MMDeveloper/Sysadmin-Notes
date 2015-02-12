@@ -1,0 +1,3 @@
+yum install dhcpd 
+
+systemctl enable dhcpd.service
