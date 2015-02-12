@@ -1,0 +1,11 @@
+Client Machine (dos):
+psexec \\PCNAME.yourADDomain.com -u yourADDomain\AdminAccount -h cmd
+winrm quickconfig
+y
+
+
+Your Machine (powershell run as admin)
+Enable-PSRemoting --force
+
+Your Machine (powershell)
+Enter-PSSession -ComputerName PCNAME.yourADDomain.com
