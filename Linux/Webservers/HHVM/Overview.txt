@@ -1,0 +1,1 @@
+I find it better to install nginx first. That way the nginx user will have already been created. At the time of this writing, HHVM is still new to me but I'll update this documentation as I learn better practices over time.

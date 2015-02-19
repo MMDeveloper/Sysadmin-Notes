@@ -1,0 +1,25 @@
+### create the service definition
+vim /usr/lib/systemd/system/hhvm.service
+
+[Unit]
+Description=HHVM HipHop Virtual Machine
+
+[Service]
+# either use it as a fastcgi via tcp
+#ExecStart=/usr/local/bin/hhvm --config /etc/hhvm/server.ini --user nginx --mode daemon -vServer.Type=fastcgi -vServer.Port=9000
+# or as a socket connection
+ExecStart=/usr/local/bin/hhvm --config /etc/hhvm/server.ini --user nginx --mode daemon -vServer.Type=fastcgi -vServer.FileSocket=/var/run/hhvm/sock
+
+[Install]
+WantedBy=multi-user.target 
+
+
+
+### Now enable the servie and start it
+mkdir -p /var/run/hhvm/
+chown nginx:nginx /var/run/hhvm/
+mkdir -p /etc/hhvm/
+mkdir -p /var/log/hhvm/
+touch /var/log/hhvm/hhvm.log
+touch /etc/hhvm/server.ini
+systemctl enable hhvm

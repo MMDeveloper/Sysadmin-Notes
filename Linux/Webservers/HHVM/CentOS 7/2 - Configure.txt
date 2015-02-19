@@ -1,0 +1,20 @@
+vim /etc/hhvm/server.ini
+
+###set the thread count to %number_of_cpu_cores% * 2
+hhvm.server.thread_count=8
+hhvm.pid_file=/var/run/hhvm/pid
+hhvm.log.file=/var/log/hhvm/hhvm.log
+
+
+systemctl restart hhvm
+systemctl status hhvm
+
+
+### Now configure NGINX to pass php scripts to the hhvm socket
+location ~ \.php$ {
+    fastcgi_pass   unix:/var/run/hhvm/sock;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME  $document_root/$fastcgi_script_name;
+    include fastcgi_params;
+    fastcgi_param HTTPS off;
+}
