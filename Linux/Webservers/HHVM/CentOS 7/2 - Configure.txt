@@ -1,5 +1,4 @@
 ### Now we're going to create HHVM's config file
-### Be sure to set hhvm.server.thread_count to twice the number of CPU cores that machine has
 vim /etc/hhvm/server.ini
 
 [date]
@@ -13,6 +12,7 @@ disable_functions = _getppid, apache_child_terminate, apache_setenv, define_sysl
 hhvm.server.user = nginx
 hhvm.server.type = fastcgi
 hhvm.server.file_socket = /var/run/hhvm/sock
+;Set hhvm.server.thread_count to twice the number of CPU cores that machine has
 hhvm.server.thread_count = 8
 hhvm.pid_file = /var/run/hhvm/pid
  

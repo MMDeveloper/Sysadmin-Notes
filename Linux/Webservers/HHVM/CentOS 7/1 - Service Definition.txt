@@ -5,10 +5,7 @@ vim /usr/lib/systemd/system/hhvm.service
 Description=HHVM HipHop Virtual Machine
 
 [Service]
-# either use it as a fastcgi via tcp
-#ExecStart=/usr/local/bin/hhvm --config /etc/hhvm/server.ini --user nginx --mode daemon -vServer.Type=fastcgi -vServer.Port=9000
-# or as a socket connection
-ExecStart=/usr/local/bin/hhvm --config /etc/hhvm/server.ini --user nginx --mode daemon -vServer.Type=fastcgi -vServer.FileSocket=/var/run/hhvm/sock
+ExecStart=/usr/local/bin/hhvm --config /etc/hhvm/server.ini --mode daemon
 
 [Install]
 WantedBy=multi-user.target 
