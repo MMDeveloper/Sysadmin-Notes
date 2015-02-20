@@ -1,1 +1,0 @@
-../../CentOS 6/php-fpm/2 - Configuring Pools.txt
