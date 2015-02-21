@@ -1,0 +1,8 @@
+If you prefer to run a master/slave setup instead of a multi-master environment, these are the steps you would follow. This can be done without taking down the existing/master db service or locking transactions. These instructions will assume you've already installed mariadb or mysql (these instructions work with both).
+
+We will make the following assumptions:
+
+ - You already have one DB server running either mysql or mariadb with IP 192.168.0.2
+ - You have a new DB server running the same DB engine with IP 192.168.0.3
+ 
+I don't know if you can run replication between different engines (one mariadb and one mysql), I have never tried it and I would never try it.

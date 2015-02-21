@@ -1,0 +1,15 @@
+vim /etc/my.cnf.d/server.cnf
+
+[mysqld]
+# Mandatory Settings
+log-error = /var/log/mysqld.error.log
+binlog_format=ROW
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+
+# Optional mysqld Settings
+datadir=/var/lib/mysql
+innodb_buffer_pool_size=2G
+innodb_log_file_size=100M
+innodb_file_per_table=1
+innodb_flush_log_at_trx_commit=0 
