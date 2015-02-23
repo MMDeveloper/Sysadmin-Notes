@@ -33,6 +33,6 @@ mount /dev/vg_www/www /var/www
 ### Once you've run pvcreate, and vgextend to prep the new disk partition
 ### You simply need to "lvextend" the LV and then resize the filesystem
 ### You can do this HOT without unmounting
-### we'll assume the disk you're adding to an existing LV is /dev/sdd1
-lvextend /dev/vg_www/www /dev/sdd1
+### we'll assume the disk you're adding to an existing LV is /dev/disk/by-id/wwn-0x5000c5002186a33a-part4
+lvextend /dev/vg_www/www /dev/disk/by-id/wwn-0x5000c5002186a33a-part4
 resize2fs /dev/vg_www/www
