@@ -1,0 +1,2 @@
+yum install ntp
+systemctl enable ntpd.service

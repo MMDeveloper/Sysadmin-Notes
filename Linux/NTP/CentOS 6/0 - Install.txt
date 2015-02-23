@@ -1,0 +1,3 @@
+yum install ntp
+chkconfig --add ntp
+chkconfig --level 345 ntp on
