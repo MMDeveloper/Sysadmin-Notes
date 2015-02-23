@@ -27,7 +27,7 @@ options {
 	   reduce such attack surface 
 	*/
 
-	forwarders { 208.67.222.222; 208.67.222.220; 8.8.8.8; };
+	forwarders { 8.8.4.4; 8.8.8.8; };
 
 	# It's your choice if you want this on or not
 	dnssec-enable no;
