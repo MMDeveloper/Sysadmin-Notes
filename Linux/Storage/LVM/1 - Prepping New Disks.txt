@@ -20,13 +20,13 @@ t
 w
 
 ### Now we need to "initialize" the new disk partition as a LVM's PV.
-### From here on I like to reference the disk by uuid as I've been bitten
-### in the past from using the friendly names
-ls -lh /dev/disk/by-id/
-
-### find the entry that points to your new partition, we'll assume it's
-### /dev/disk/by-id/wwn-0x5000c5002186a33a-part3
-pvcreate /dev/disk/by-id/wwn-0x5000c5002186a33a-part3
+pvcreate /dev/sdc1
 pvdisplay
 
 ### You should see your newly created sdc1 PV
+### Now run this command to get the UID of the partition as we will
+### use that from now on
+ls -lh /dev/disk/by-id | grep sdc1
+
+### for the purposes of this documentation, we'll assume it was
+/dev/disk/by-id/lvm-pv-uuid-JK60sV-Mc1e-RZlD-eeeB-h4qK-xFtn-iyZfHV

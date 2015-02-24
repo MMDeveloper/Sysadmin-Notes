@@ -1,7 +1,7 @@
 ### If you are creating a new Volume Group and not expanding an existing one
 ### think of a name for your VG, it must be unique amongst future VGs on this vg_server_0
 ### and should describe the purpose of the PVs within it
-vgcreate vg_www /dev/disk/by-id/wwn-0x5000c5002186a33a-part3
+vgcreate vg_www /dev/disk/by-id/lvm-pv-uuid-JK60sV-Mc1e-RZlD-eeeB-h4qK-xFtn-iyZfHV
 
 
 
@@ -11,4 +11,4 @@ vgcreate vg_www /dev/disk/by-id/wwn-0x5000c5002186a33a-part3
 vgdisplay
 
 ### I'll assume we're adding this new partition to an existing VG named "vg_www"
-vgextend vg_www /dev/disk/by-id/wwn-0x5000c5002186a33a-part3
+vgextend vg_www /dev/disk/by-id/lvm-pv-uuid-JK60sV-Mc1e-RZlD-eeeB-h4qK-xFtn-iyZfHV
