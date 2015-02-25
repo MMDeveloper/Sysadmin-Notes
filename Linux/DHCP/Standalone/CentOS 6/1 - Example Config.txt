@@ -14,8 +14,9 @@ subnet 192.168.0.0 netmask 255.255.255.0 {
 	
 	#DNS Servers (space delimited)
 	option domain-name-servers 192.168.0.7;
-	default-lease-time 600;
-	max-lease-time 7200;
+	default-lease-time 86400;
+        min-lease-time 3600;
+        max-lease-time 604800;
 	option ip-forwarding off;
 	
 	#gateway
