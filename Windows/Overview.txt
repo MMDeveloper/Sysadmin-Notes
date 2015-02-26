@@ -1,0 +1,3 @@
+While I'm more of a Linux person, I have worked with windows servers 2003-2012R2. These instructions are believed to be pretty much the same for all windows versions. In the event they are separated by OS, the instructions in one folder are presumed to work for that specific OS and newer at the time of its writing.
+
+If no OS level folder is present, it is believed to work on 2008 or newer. If a 2008 folder exists, those instructions shall be good for 2008 and newer, unless a separate folder exists for 2008R2 or 2012 (etc). I do however recommend to utilize the MS Best Practices wizards accessible from the Server Manager console under each role. It will assist you in hardening your role configurations and finding any common misconfiguration.

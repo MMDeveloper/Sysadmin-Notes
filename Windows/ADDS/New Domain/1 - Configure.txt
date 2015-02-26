@@ -1,0 +1,6 @@
+Historically you would run dcpromo from an elevated command prompt, however in 2012 you have to run a setup wizard from the server manager window under the "actions" icon.
+
+ - You will be creating a new domain in a new forest.
+ - Think carefully what you want your domain to be, I will use internal.org
+ - I recommend using the highest forest functional level available which in this case is 2008R2. Keep in mind that if you have a functional level of 2012, you cannot have any 2008 domain controllers so take that into account. Have the functional level as high as the Domain Controller with the oldest OS.
+ - Choose a Restore Mode password. This is when stuff really hits the fan. Keep this secret somewhere.
