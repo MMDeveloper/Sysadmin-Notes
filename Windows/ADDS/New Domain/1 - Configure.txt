@@ -1,4 +1,4 @@
-Historically you would run dcpromo from an elevated command prompt, however in 2012 you have to run a setup wizard from the server manager window under the "actions" icon.
+Historically you would run dcpromo from an elevated command prompt, however in 2012 you have to run a setup wizard from the server manager window under the "Notifications" icon.
 
  - You will be creating a new domain in a new forest.
  - Think carefully what you want your domain to be, I will use internal.org
