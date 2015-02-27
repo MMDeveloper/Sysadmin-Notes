@@ -1,0 +1,6 @@
+The most common WSUS install is a single server acting as an update caching server for networks, so we will assume this is the desired setup.
+
+Open the WSUS Management console, it should prompt a "first run" type config wizard
+
+ - You want to sync from Microsoft Update
+ - 
