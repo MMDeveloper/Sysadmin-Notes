@@ -11,7 +11,7 @@ yum -y install authconfig krb5-workstation pam_krb5 samba-common oddjob-mkhomedi
 
 
 ### Configure authentication ###
-authconfig --disablecache --enablewinbind --enablewinbindauth --smbsecurity=ads --smbworkgroup=PUTNAM-FL --smbrealm=mydomain.org --enablewinbindusedefaultdomain --winbindtemplatehomedir=/home/MYDOMAIN/%U --winbindtemplateshell=/bin/bash --enablekrb5 --krb5realm=mydomain.org --enablekrb5kdcdns --enablekrb5realmdns --enablelocauthorize --enablemkhomedir --enablepamaccess --updateall
+authconfig --disablecache --enablewinbind --enablewinbindauth --smbsecurity=ads --smbworkgroup=MYDOMAIN --smbrealm=mydomain.org --enablewinbindusedefaultdomain --winbindtemplatehomedir=/home/MYDOMAIN/%U --winbindtemplateshell=/bin/bash --enablekrb5 --krb5realm=mydomain.org --enablekrb5kdcdns --enablekrb5realmdns --enablelocauthorize --enablemkhomedir --enablepamaccess --updateall
 
 ### replace /etc/krb5.conf with this data ###
 [logging]
