@@ -1,4 +1,9 @@
-### What we're going to setup is called a Replicated Gluster Cluster. This acts just like microsoft's DFS replication. If each storage node only has a 10gb drive to offer to the cluster, the storage pool is only 10gb (not the sum of all storage pool drives because each server will have a copy of each file, this provides fault tolerance). There are other ways to setup a Gluster Cluster but I won't cover that here, you can google it.
+### What we're going to setup is called a Replicated Gluster Cluster. This acts 
+### just like microsoft's DFS replication. If each storage node only has a 10gb 
+### drive to offer to the cluster, the storage pool is only 10gb (not the sum of 
+### all storage pool drives because each server will have a copy of each file, this 
+### provides fault tolerance). There are other ways to setup a Gluster Cluster but I 
+### won't cover that here, you can google it.
 
 ### On the web1 server, run the following command
 gluster peer probe 192.168.1.2

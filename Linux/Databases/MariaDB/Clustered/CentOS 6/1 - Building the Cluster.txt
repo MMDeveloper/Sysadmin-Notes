@@ -1,5 +1,9 @@
 ######### IF THIS IS THE FIRST NODE OF A NEW CLUSTER
-### When building a new cluster, you need at least 2 DB servers ready to go, minimum recommended is three to avoid split-brain syndrom. When building the cluster, one DB server should be dedicated as the master. It will only be the master until the second DB server connects, at which point the concept of 'master' disappears. Basically the first one needs to be started with a special startup parameter that kind of advertises that this is a new cluster and for the next one to join, to copy everything from it.
+### When building a new cluster, you need at least 2 DB servers ready to go, minimum recommended is three to 
+### avoid split-brain syndrom. When building the cluster, one DB server should be dedicated as the master. 
+### It will only be the master until the second DB server connects, at which point the concept of 'master' 
+### disappears. Basically the first one needs to be started with a special startup parameter that kind of 
+### advertises that this is a new cluster and for the next one to join, to copy everything from it.
 
 ### Set the cluster name parameter to something unique
 
@@ -9,7 +13,12 @@
 ### Now, start the 'master' DB server
 service mysql bootstrap
 
-### The cluster is waiting for a second server to join. Now go to your next DB server and follow the 'adding a node' instructions. Once you've added a second node, stop the DB service on this host. Update the server.cnf file and change the gcomm:// parameter to a comma delimited list of ALL IP addresses of all nodes except THIS server. Stop and start the DB service on this host and it will 'join the cluster'. It may or may not do an SST Transfer, depending if data changed on the other nodes while you were doing this.
+### The cluster is waiting for a second server to join. Now go to your next DB server and follow the 
+### 'adding a node' instructions. Once you've added a second node, stop the DB service on this host. 
+### Update the server.cnf file and change the gcomm:// parameter to a comma delimited list of ALL IP 
+### addresses of all nodes except THIS server. Stop and start the DB service on this host and it will 
+### 'join the cluster'. It may or may not do an SST Transfer, depending if data changed on the other 
+### nodes while you were doing this.
 
 
 
@@ -17,10 +26,13 @@ service mysql bootstrap
 
 
 ######### Adding a node to an existing cluster
-### The only config-differences between the first node and an existing node is the cluster address, the node address, and the node name. The cluster address parameter tells the DB server all of the IPs to try and connect to; to try and pull the cluster configuration and sync its databases, otherwise fail.
-### The node address is simply the servers IP address
-### The node name is a unique ID for that node in that cluster, typically the server hostname
-### The cluster address now should be a comma delimited address of the IPs (or DNS records) of all the other DB servers in the cluster. For example, if I have a 3 server pool (192.168.3.1-3) and wish to add a .4 server, the two parameters would look like this:
+### The only config-differences between the first node and an existing node is the cluster address, 
+### the node address, and the node name. The cluster address parameter tells the DB server all of 
+### the IPs to try and connect to; to try and pull the cluster configuration and sync its databases, 
+### otherwise fail. The node address is simply the servers IP address. The node name is a unique ID 
+### for that node in that cluster, typically the server hostname The cluster address now should be 
+### a comma delimited address of the IPs (or DNS records) of all the other DB servers in the cluster. 
+### For example, if I have a 3 server pool (192.168.3.1-3) and wish to add a .4 server, the two parameters would look like this:
 
 wsrep_cluster_address=gcomm://192.168.3.1,192.168.3.2,192.168.3.3
 wsrep_node_address='192.168.3.4'
@@ -31,4 +43,5 @@ wsrep_node_name='DB4'
 ### start this DB service
 service mysql start
 
-### You should see it start the DB process and do what's called an SST Transfer. This means it has joined the cluster and is syncing the databases. Once the sync is complete, you will get your command prompt back.
+### You should see it start the DB process and do what's called an SST Transfer. This means it has 
+### joined the cluster and is syncing the databases. Once the sync is complete, you will get your command prompt back.

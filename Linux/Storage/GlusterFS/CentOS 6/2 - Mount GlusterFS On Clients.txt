@@ -9,4 +9,6 @@ vim /etc/fstab
 ### add the following entry on web2's fstab
 192.168.1.2:/gv0 /var/www/external glusterfs defaults,_netdev,backupvolfile-server=192.168.1.1 0 0 
 
-By doing this, each webserver is acting as a node in the clustered storage, and also mounting 'itself' as a client so even though the files are technically a network share, they're still locally accessible instead of remotely-via-network.
+### By doing this, each webserver is acting as a node in the clustered storage, 
+### and also mounting 'itself' as a client so even though the files are technically 
+### a network share, they're still locally accessible instead of remotely-via-network.

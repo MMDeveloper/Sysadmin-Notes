@@ -1,6 +1,11 @@
-For an HA setup and true load balancing, I personally prefer to deploy HAProxy. Load balancing requests for HA does no good with a single HAProxy server as that provides a single point of failure. It is recommended to have at least 2, using keepalived to setup your HAProxy servers in an active/standby cluster via a heartbeat. 
+For an HA setup and true load balancing, I personally prefer to deploy HAProxy. Load balancing 
+requests for HA does no good with a single HAProxy server as that provides a single point of 
+failure. It is recommended to have at least 2, using keepalived to setup your HAProxy servers 
+in an active/standby cluster via a heartbeat. 
 
-To achieve this you'll need N+1 IP addresses, one for each HAProxy server and one 'Floating IP' that is passed around. This "Floating IP" is the IP address that should be used to send traffic to your cluster/farm of servers; it is the internal IP that should be NAT'd to the outside world.
+To achieve this you'll need N+1 IP addresses, one for each HAProxy server and one 'Floating IP' 
+that is passed around. This "Floating IP" is the IP address that should be used to send traffic 
+to your cluster/farm of servers; it is the internal IP that should be NAT'd to the outside world.
 
 For the following documents, I will make the following assumptions:
 
