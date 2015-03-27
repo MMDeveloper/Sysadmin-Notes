@@ -3,7 +3,7 @@ They have a repository configuration tool located at https://downloads.mariadb.o
 
 The following instructions should be executed on every DB server to be put in the cluster
 
-I will assume CentOS 6 64bit and MariaDB+Galera v10.
+I will assume CentOS 7 64bit and MariaDB+Galera v10.
 
 vim /etc/yum.repos.d/MariaDB.repo
 
