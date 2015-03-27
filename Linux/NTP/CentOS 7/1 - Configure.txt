@@ -1,3 +1,5 @@
+vim /etc/ntp.conf
+
 ### Now that NTP is installed, go to http://www.pool.ntp.org/en/ and drill down to find a pool of stratum servers to sync with 
 ### For me, that pool was 
 
