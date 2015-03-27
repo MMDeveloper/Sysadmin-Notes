@@ -1,0 +1,3 @@
+### See Installing the Epel/Remi repositories
+
+yum install redis
