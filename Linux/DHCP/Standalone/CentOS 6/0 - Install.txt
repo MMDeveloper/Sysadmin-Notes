@@ -1,4 +1,0 @@
-yum install dhcpd 
-
-chkconfig --add dhcpd
-chkconfig --level 345 dhcpd on
