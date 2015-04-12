@@ -1,0 +1,4 @@
+[mysqld]
+server-id=2
+relay_log=relay-log
+skip-slave-start

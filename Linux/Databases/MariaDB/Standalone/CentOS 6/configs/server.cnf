@@ -1,5 +1,3 @@
-vim /etc/my.cnf.d/server.cnf
-
 [mysqld]
 # Mandatory Settings
 log-error = /var/log/mysqld.error.log
@@ -12,4 +10,4 @@ datadir=/var/lib/mysql
 innodb_buffer_pool_size=2G
 innodb_log_file_size=100M
 innodb_file_per_table=1
-innodb_flush_log_at_trx_commit=0 
+innodb_flush_log_at_trx_commit=0

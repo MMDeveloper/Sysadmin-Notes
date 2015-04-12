@@ -1,0 +1,29 @@
+[mysqld]
+# Mandatory Settings
+log-error = /var/log/mysqld.error.log
+binlog_format=ROW
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+
+# Optional mysqld Settings
+datadir=/var/lib/mysql
+innodb_buffer_pool_size=2G
+innodb_log_file_size=100M
+innodb_file_per_table=1
+innodb_flush_log_at_trx_commit=0
+
+[galera]
+# Mandatory settings
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+wsrep_cluster_address=gcomm://
+wsrep_slave_threads=5
+binlog_format=row
+default_storage_engine=InnoDB
+wsrep_cluster_name='mmCluster0'
+### This is the IP address of THIS NODE
+wsrep_node_address='192.168.3.1'
+### This is a unique node name for the cluster, typically I just use the servers hostname
+wsrep_node_name='DB1'
+wsrep_sst_method=rsync
+#innodb_autoinc_lock_mode=2
+query_cache_size=0

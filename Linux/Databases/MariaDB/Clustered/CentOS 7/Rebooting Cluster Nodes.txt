@@ -1,8 +1,0 @@
-You can reboot cluster nodes as often as you like, whenever you like. The only "thing" is 
-that at least ONE node must remain up to keep the cluster alive. If at ANY point ALL cluster 
-nodes go down. You will need to bootstrap a new cluster following the "Building the Cluster" 
-instructions.. FEAR NOT YOUR DATA IS NOT GONE.
-
-Just pick a server, change the gcomm address, bootstrap the new cluster, restart the DB service 
-on any of the other nodes, revert the gcomm address on the first node and cycle the DB service there. 
-Cycle the DB service on all the other nodes and they will also auto-rejoin the cluster and sync.
