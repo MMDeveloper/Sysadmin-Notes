@@ -1,0 +1,8 @@
+HTTP/1.0 400 Server Error
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+
+<html><body><h1>Rate Limit Exceeded</h1>
+You have exceeded the allowable rate limit threshold, slow down there buddy
+</body></html>
