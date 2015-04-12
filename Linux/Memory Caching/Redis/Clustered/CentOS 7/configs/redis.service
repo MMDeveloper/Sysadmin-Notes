@@ -1,0 +1,10 @@
+[Unit]
+Description=Redis persistent key-value database
+After=network.target
+
+[Service]
+ExecStart=/root/redis-3.0.0-rc3/src/redis-server /etc/redis.conf
+ExecStop=/root/redis-3.0.0-rc3/src/redis-cli shutdown
+
+[Install]
+WantedBy=multi-user.target
