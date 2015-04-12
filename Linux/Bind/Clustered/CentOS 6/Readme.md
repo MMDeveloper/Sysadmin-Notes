@@ -7,14 +7,14 @@ cd /var/named/chroot/
 mv /var/named/
 ```
 #Configuration#
-####move data files to chroot directory####
+move data files to chroot directory
 ```
 find /var/named/ -mindepth 1 -maxdepth 1 -not -iname "chroot" -exec mv {} /var/named/chroot{} \;
 mv /etc/named* /var/named/chroot/etc/
 ln -sf /var/named/chroot/etc/named.conf /etc/named.conf
 ```
 
-####reset permissions####
+reset permissions
 ```
 chown -R named:named /var/named/chroot/var/named/
 chown -R named:named /var/named/chroot/etc/
