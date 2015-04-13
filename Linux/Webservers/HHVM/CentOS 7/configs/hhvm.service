@@ -1,0 +1,8 @@
+[Unit]
+Description=HHVM HipHop Virtual Machine
+
+[Service]
+ExecStart=/usr/local/bin/hhvm --config /etc/hhvm/server.ini --mode daemon
+
+[Install]
+WantedBy=multi-user.target
