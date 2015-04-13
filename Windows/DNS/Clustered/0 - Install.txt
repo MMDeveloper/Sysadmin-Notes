@@ -1,1 +1,0 @@
-Open the Server Manager and add the DNS role. Click through the wizard steps until completion. After install, open the DNS management tool. 

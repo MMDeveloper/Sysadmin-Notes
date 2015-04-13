@@ -1,1 +1,0 @@
-From your server manager, add the Network Policy and Access Services role. 

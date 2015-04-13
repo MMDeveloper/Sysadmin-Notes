@@ -1,3 +1,7 @@
+#Installation#
+Open the Server Manager and add the DNS role. Click through the wizard steps until completion. After install, open the DNS management tool.
+
+#Configure Primary DNS Node#
 Now we need to configure a zone. For the purposes of this documentation, we'll assume we're going to host the domain "mydomain.com" with 2 subdomains of "www" and "static" with IPs of 192.168.0.3 and 4 respectively.
 
 Now let's finalize the dns server config
@@ -17,7 +21,7 @@ Now let's create our first forward and reverse zones.
 7. input the first three octets of IP addresses to go with your forward zone (192.168.0)
 8. Do not allow dynamic updates
 
-Now we have your forward and reverse zones, we need to create your host records in your forward zone. 
+Now we have your forward and reverse zones, we need to create your host records in your forward zone.
 
 0. Navigate to your forward zone of mydomain.com
 1. right click in the empty space and choose "New Host (A or AAAA)"

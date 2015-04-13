@@ -1,13 +1,14 @@
-Open the Server Manager and install the DHCP role. 
+#Installation#
+Open the Server Manager and install the DHCP role.
 
 We will make the following assumptions for these docs:
 
-DNS Domain: mydomain.com
-DNS Server: 192.168.0.7
-DHCP Scope Name: Workstations
-DHCP Scope Range: 192.168.0.100 - 192.168.0.254
-Subnet: /24
-Gateway: 192.168.0.1
+ - DNS Domain: mydomain.com
+ - DNS Server: 192.168.0.7
+ - DHCP Scope Name: Workstations
+ - DHCP Scope Range: 192.168.0.100 - 192.168.0.254
+ - Subnet: /24
+ - Gateway: 192.168.0.1
 
 WINS is an antiquated technology and should not be enabled. The installer will require you to setup at least one dhcp scope. Plugin the above information.
 

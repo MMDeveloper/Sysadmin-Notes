@@ -1,3 +1,7 @@
+#Installation#
+From your server manager, install the Windows Server Update Services role. After install, you must configure your new WSUS box.
+
+#Configuration#
 The most common WSUS install is a single server acting as an update caching server for networks, so we will assume this is the desired setup.
 
 Open the WSUS Management console, it should prompt a "first run" type config wizard
@@ -8,7 +12,7 @@ Open the WSUS Management console, it should prompt a "first run" type config wiz
  - Select the update types you want to download and issue.
  - Choose a sync schedule that will minimize bandwidth impact. This is when your WSUS server will sync updates from Microsoft.
  - Personally I'd recommend to defer the first sync for the next scheduled sync, else it will pull down a LOT of update data from MS which can kill small internet pipes.
- 
+
 Now you need to direct your workstations and servers to use your WSUS server. You're more than likely putting this in an Active Directory environment which makes this very easy. Simply create a new GPO called "WSUS" and set these options:
   - Computer Configuration -> Administrative Templates -> Windows Components - Windows Update
   -> Click Specify Intranet Microsoft Update Service Location
@@ -18,5 +22,5 @@ Now you need to direct your workstations and servers to use your WSUS server. Yo
   ->> Configure your update install schedule for clients
   -> Click Enable client-side targeting
   -> Click Enabled
-  
+
 Set any additional update options as needed. I would not yet approve, or configure auto approval, until at least your windows servers have populated themselves into WSUS. You will want to schedule different update policies to your servers and workstations. Once you feel comfortable there is adequate segregation, configure your auto approval policies and you're done.
