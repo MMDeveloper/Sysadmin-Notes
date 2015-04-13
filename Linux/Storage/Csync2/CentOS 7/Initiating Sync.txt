@@ -1,5 +1,0 @@
-### Manually cause a sync to happen
-csync2 -xr
-
-### Typical crontab entry on each server so no 1 server is responsible for syncing
-*/5 * * * * /usr/local/sbin/csync2 -xr > /var/log/csync2.log 2>&1 
