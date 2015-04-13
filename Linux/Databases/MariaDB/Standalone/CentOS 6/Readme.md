@@ -6,7 +6,7 @@ I will assume CentOS 6 64bit and MariaDB+Galera v10.
 vim /etc/yum.repos.d/MariaDB.repo
 ```
 
-> ###Paste the contents of configs/MariaDB.repo####
+> ####Paste the contents of configs/MariaDB.repo####
 
 ####Update YUM####
 ```
@@ -24,7 +24,7 @@ service mysql stop
 vim /etc/my.cnf.d/server.cnf
 ```
 
-> ###Paste the contents of configs/server.cnf####
+> ####Paste the contents of configs/server.cnf####
 
 ####start this DB service####
 ```

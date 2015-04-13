@@ -18,7 +18,7 @@ make && make install
 echo '' > /etc/redis.conf
 vim /etc/redis.conf
 ```
-> ###Paste the contents of configs/redis.conf####
+> ####Paste the contents of configs/redis.conf####
 
 #Creating the Cluster#
 We will assume we have 3 Redis servers for the cluster, which is the minimum recommended. Their IPs are 192.168.0.2-4

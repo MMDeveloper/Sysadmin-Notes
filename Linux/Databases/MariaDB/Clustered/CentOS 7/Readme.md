@@ -6,7 +6,7 @@ The following instructions should be executed on every DB server to be put in th
 vim /etc/yum.repos.d/MariaDB.repo
 ```
 
-> ###Paste the contents of configs/MariaDB.repo####
+> ####Paste the contents of configs/MariaDB.repo####
 
 ####Update YUM####
 ```
@@ -22,7 +22,7 @@ systemctl enable mariadb.service
 vim /etc/my.cnf.d/server.cnf
 ```
 
-> ###Paste the contents of configs/server.cnf####
+> ####Paste the contents of configs/server.cnf####
 
 > ###Do not start the DB service yet###
 

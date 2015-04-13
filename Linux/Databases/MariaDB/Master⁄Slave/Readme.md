@@ -13,7 +13,7 @@ On the master you'll need to edit the mysql/mariadb config file and add these pa
 ```
 vim /etc/my.cnf
 ```
-> ###Paste the contents of configs/master-my.cnf####
+> ####Paste the contents of configs/master-my.cnf####
 
 Now restart the db service
 
@@ -53,7 +53,7 @@ First we need to configure the db service, take note the server-id is different
 ```
 vim /etc/my.cnf
 ```
-> ###Paste the contents of configs/slave-my.cnf####
+> ####Paste the contents of configs/slave-my.cnf####
 
 Restart the DB service on the slave. Now we need to import the backup you copied from the master
 ```

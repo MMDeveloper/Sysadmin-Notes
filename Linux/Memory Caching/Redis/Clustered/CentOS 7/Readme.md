@@ -17,7 +17,7 @@ make && make install
 ```
 vim /usr/lib/systemd/system/redis.service
 ```
-> ###Paste the contents of configs/redis.service####
+> ####Paste the contents of configs/redis.service####
 
 reload the systemd daemon and enable service
 ```
@@ -30,7 +30,7 @@ systemctl enable redis.service
 echo '' > /etc/redis.conf
 vim /etc/redis.conf
 ```
-> ###Paste the contents of configs/redis.conf####
+> ####Paste the contents of configs/redis.conf####
 
 #Creating the Cluster#
 We will assume we have 3 Redis servers for the cluster, which is the minimum recommended. Their IPs are 192.168.0.2-4

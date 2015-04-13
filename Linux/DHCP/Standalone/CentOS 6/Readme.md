@@ -9,7 +9,7 @@ chkconfig --level 345 dhcpd on
 ```
 vim /etc/dhcp/dhcpd.conf
 ```
-> ###Paste the contents of configs/dhcpd.conf####
+> ####Paste the contents of configs/dhcpd.conf####
 
 #Integration With BIND#
 If you have DHCPD running on a linux box and wish to push DDNS to your BIND server, there is a little bit more config to do.
