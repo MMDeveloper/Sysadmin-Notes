@@ -2,7 +2,7 @@
 See Installing the Epel/Remi repositories
 
 ```
-yum install php56 php56-php-fpm php56-php-common php56-php-pear php56-php-pdo php56-php-pgsql php56-php-pecl-memcache php56-php-opcache php56-php-gd php56-php-mbstring php56-php-mcrypt php56-php-xml
+yum install php56 php56-php-fpm php56-php-common php56-php-pear php56-php-pdo php56-php-pgsql php56-php-pecl-memcache php56-php-opcache php56-php-gd php56-php-mbstring php56-php-mcrypt php56-php-xml php56-php-mysqlnd
 systemctl enable php56-php-fpm.service
 ```
 
