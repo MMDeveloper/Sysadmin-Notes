@@ -42,6 +42,7 @@ gluster volume start gv0
 ```
 
 #Mount GlusterFS On Client#
+Using the native GlustFS Client is recommended for environments needing high write performance. For environments needing high read performance, especially with small files, it is recommended to mount the GlusterFS volumes via NFS.
 ```
 yum install glusterfs-client
 vim /etc/fstab
