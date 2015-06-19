@@ -19,6 +19,8 @@ HostKey /etc/ssh/ssh_host_ecdsa_key
 KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
 Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+KeyRegenerationInterval 1800
+AuthenticationMethods publickey
 
 SyslogFacility AUTHPRIV
 PermitRootLogin no
@@ -70,9 +72,21 @@ We need to do a key exchange between your user account on a client machine and t
 ssh-copy-id clientuser0@10.0.0.2
 ```
 
-Now try to SSH to 10.0.0.2 as the clientuser0 user in another session and it should authenticate successfully without a password prompt. If this has happened, you are done. Now re-edit the /etc/ssh/sshd_config and uncomment the following line
+Now try to SSH to 10.0.0.2 as the clientuser0 user in another session and it should authenticate successfully without a password prompt. If this has happened, you are done. Now re-edit the /etc/ssh/sshd_config and uncomment the following line and restart your SSHD service.
 ```
 #PasswordAuthentication no
+```
+
+If the Key authentication fails, more often than not it will be the permissions on the ~/.ssh and the files within that folder on the CLIENT side. Below are the correct permissions
+```
+#Client Side
+chmod 700 ~/.ssh/
+chmod 600 ~/.ssh/id_rsa
+chmod 655 ~/.ssh/id_rsa.pub
+
+#Server Side
+chmod -R 600 /home/clientuser0/.ssh/*
+chmod 700 /home/clientuser0/.ssh/
 ```
 
 For new users, they will need to generate their user ssh keys and give you their public key. Once you create their user account on the SSH server, add their public key to their ~/.ssh/authorized_keys file
