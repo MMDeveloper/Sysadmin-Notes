@@ -1,51 +1,51 @@
 acl internals {
-	192.168.0.0/16;
-	127.0.0.1;
-	10.0.0.0/8;
-	172.16.0.0/16;
+    192.168.0.0/16;
+    127.0.0.1;
+    10.0.0.0/8;
+    172.16.0.0/16;
 };
 
 acl slaves_int {
-	127.0.0.1;
+    127.0.0.1;
 };
 
 acl query_allowed {
-	any;
+    any;
 };
 
 options {
-	listen-on port 53 { 127.0.0.1; 192.168.0.7;};
-	directory 	"/var/named/chroot/var/named";
-	dump-file 	"/var/named/chroot/var/named/data/cache_dump.db";
-	statistics-file "/var/named/chroot/var/named/data/named_stats.txt";
-	memstatistics-file "/var/named/chroot/var/named/data/named_mem_stats.txt";
+    listen-on port 53 { 127.0.0.1; 10.0.0.7;};
+    directory 	"/var/named/chroot/var/named";
+    dump-file 	"/var/named/chroot/var/named/data/cache_dump.db";
+    statistics-file "/var/named/chroot/var/named/data/named_stats.txt";
+    memstatistics-file "/var/named/chroot/var/named/data/named_mem_stats.txt";
 
-	/* 
-	 - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
-	 - If you are building a RECURSIVE (caching) DNS server, you need to enable 
-	   recursion. 
-	 - If your recursive DNS server has a public IP address, you MUST enable access 
-	   control to limit queries to your legitimate users. Failing to do so will
-	   cause your server to become part of large scale DNS amplification 
-	   attacks. Implementing BCP38 within your network would greatly
-	   reduce such attack surface 
-	*/
+    /*
+     - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
+     - If you are building a RECURSIVE (caching) DNS server, you need to enable
+       recursion.
+     - If your recursive DNS server has a public IP address, you MUST enable access
+       control to limit queries to your legitimate users. Failing to do so will
+       cause your server to become part of large scale DNS amplification
+       attacks. Implementing BCP38 within your network would greatly
+       reduce such attack surface
+    */
 
-	forwarders { 8.8.4.4; 8.8.8.8; };
+    forwarders { 8.8.4.4; 8.8.8.8; };
 
-	# It's your choice if you want this on or not
-	dnssec-enable no;
-	dnssec-validation no;
-	dnssec-lookaside auto;
-	
-	#default push notifications to slaves
-	notify yes;
+    # It's your choice if you want this on or not
+    dnssec-enable no;
+    dnssec-validation no;
+    dnssec-lookaside auto;
+
+    #default push notifications to slaves
+    notify yes;
 
 
-	bindkeys-file "/var/named/chroot/etc/named.iscdlv.key";
-	managed-keys-directory "/var/named/chroot/var/named/dynamic";
-	pid-file "/run/named/named.pid";
-	session-keyfile "/run/named/session.key";
+    bindkeys-file "/var/named/chroot/etc/named.iscdlv.key";
+    managed-keys-directory "/var/named/chroot/var/named/dynamic";
+    pid-file "/run/named/named.pid";
+    session-keyfile "/run/named/session.key";
 };
 
 logging {
@@ -56,48 +56,48 @@ logging {
 };
 
 view "internal" {
-	match-clients { internals; };
-	allow-query     {internals;};
-	allow-transfer {slaves_int;};
-	include "/var/named/chroot/etc/named.rfc1912.zones";
+    match-clients { internals; };
+    allow-query     {internals;};
+    allow-transfer {slaves_int;};
+    include "/var/named/chroot/etc/named.rfc1912.zones";
 
-	zone "." IN {
-        	type hint;
-        	file "/var/named/chroot/var/named/named.ca";
-	};
+    zone "." IN {
+            type hint;
+            file "/var/named/chroot/var/named/named.ca";
+    };
 
-	zone "0.168.192.in-addr.arpa" IN {
-	        type master;
-	        file "/var/named/chroot/var/named/local.mm.reverse-internal";
-	        allow-update { none; };
-	};
+    zone "0.0.10.in-addr.arpa" IN {
+            type master;
+            file "/var/named/chroot/var/named/local.mm.reverse-internal";
+            allow-update { none; };
+    };
 
-	zone "local.mm" {
-		type master;
-		file "/var/named/chroot/var/named/local.mm.forward-internal";
-		allow-update { none; };
-	};
+    zone "local.mm" {
+        type master;
+        file "/var/named/chroot/var/named/local.mm.forward-internal";
+        allow-update { none; };
+    };
 };
 
 view "external" {
-	recursion no;
-	match-clients { !internals; };
-	allow-query     {!internals;};
-	allow-transfer {internals;};
+    recursion no;
+    match-clients { !internals; };
+    allow-query     {!internals;};
+    allow-transfer {internals;};
 
-	# If local.mm was a world-visible website domain
-	zone "local.mm" {
-		type master;
-		file "/var/named/chroot/var/named/local.mm.forward-external";
-		allow-update { none; };
-	};
-	
-	# Whatever the external IP for local.mm was
-	zone "X.X.X.in-addr.arpa" IN {
-	        type master;
-	        file "/var/named/chroot/var/named/local.mm.reverse-external";
-	        allow-update { none; };
-	};
+    # If local.mm was a world-visible website domain
+    zone "local.mm" {
+        type master;
+        file "/var/named/chroot/var/named/local.mm.forward-external";
+        allow-update { none; };
+    };
+
+    # Whatever the external IP for local.mm was
+    zone "X.X.X.in-addr.arpa" IN {
+            type master;
+            file "/var/named/chroot/var/named/local.mm.reverse-external";
+            allow-update { none; };
+    };
 };
 
-include "/var/named/chroot/etc/named.root.key"; 
+include "/var/named/chroot/etc/named.root.key";

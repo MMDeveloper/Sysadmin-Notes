@@ -1,15 +1,15 @@
 $TTL 86400
 $ORIGIN local.mm.
 @	IN	SOA	mmprivatecloud.local.mm. root.local.mm. (
-			2015010902
-			3600
-			1800
-			604800
-			86400 )
-@       IN  NS          mmprivatecloud.local.mm.
-@       IN  A           192.168.0.7
-mmprivatecloud		IN  A   192.168.0.7
-www			IN CNAME mmprivatecloud.local.mm.
-dev			IN CNAME mmprivatecloud.local.mm.
-bcassets		IN CNAME mmprivatecloud.local.mm.
-da			IN CNAME mmprivatecloud.local.mm. 
+            2015010902
+            3600
+            1800
+            604800
+            86400 )
+@                   IN  NS          mmprivatecloud.local.mm.
+@                   IN  A           10.0.0.7
+mmprivatecloud      IN  A   10.0.0.7
+www                 IN CNAME mmprivatecloud.local.mm.
+dev                 IN CNAME mmprivatecloud.local.mm.
+bcassets            IN CNAME mmprivatecloud.local.mm.
+da                  IN CNAME mmprivatecloud.local.mm.

@@ -34,12 +34,12 @@ allow client-updates;
 include "/var/named/chroot/etc/rndc.key";
 
 zone yourlocaldnsdomain.com. { #the dns suffix domain
-    primary 192.168.0.7; #the IP address of the BIND server
+    primary 10.0.0.7; #the IP address of the BIND server
     key rndc-key;
 }
 
-zone 0.168.192.in-addr.arpa. { #the reverse lookup zone
-    primary 192.168.0.7; #the IP address of the BIND server
+zone 0.0.10.in-addr.arpa. { #the reverse lookup zone
+    primary 10.0.0.7; #the IP address of the BIND server
     key rndc-key;
 }
 ```

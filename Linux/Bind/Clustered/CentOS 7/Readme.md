@@ -30,7 +30,7 @@ Once you follow the Install instructions for BIND on your BIND slave server(s), 
 Once you've copied the named.conf file to the slaves, for each slave, you must make the following modifications:
 
  - for each zone, change the "type" from "master" to "slave".
- - for each slave zone, add a new parameter: masters { 192.168.0.7; }; #where 192.168.0.7 is the IP address of the BIND master server
+ - for each slave zone, add a new parameter: masters { 10.0.0.7; }; #where 10.0.0.7 is the IP address of the BIND master server
 
 #Integration with DHCP#
 If you have DHCPD running on a linux box and wish to push DDNS to your BIND server, there is a little bit more config to do. This should be done on your MASTER server only. First you should refer to DHCP's configuration folder on how to do the first half of the configuration
