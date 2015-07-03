@@ -41,3 +41,6 @@ We can check that it is now running again
 jobs
 > [1]+ RUNNING /usr/bin/some_long_running_command
 ```
+
+#Alternative way to background processes#
+Please refer to the "Unattached Screens and Jobs" file in this same directory
