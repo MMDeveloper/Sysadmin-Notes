@@ -36,7 +36,7 @@ http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]act
 # Reject if client has passed the HTTP connection rate
 http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]connection-rate, if { src_conn_rate ge 30 }
 # Reject if client has passed the HTTP error rate
-http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]error-rate, if { sc0_http_err_rate() gt 10 }
+http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]error-rate, if { sc0_http_err_rate() gt 3 }
 # Reject if client has passed the HTTP request rate
 http-request add-header X-Haproxy-Throttle %[req.fhdr(X-Haproxy-Throttle,-1)]request-rate, if { sc0_http_req_rate() gt 80 }
 
