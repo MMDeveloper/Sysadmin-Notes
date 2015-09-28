@@ -24,6 +24,16 @@ vim /etc/my.cnf.d/server.cnf
 
 > ####Paste the contents of configs/server.cnf####
 
+#Firewall#
+First we need to determine which zones are active
+```
+firewall-cmd --get-active-zones
+```
+In my dev environment, I only have one zone called `internal` active. Now we open the DB port for the target zone
+```
+firewall-cmd --zone=internal --add-port=3306/tcp --permanent
+```
+
 > ###Do not start the DB service yet###
 
 

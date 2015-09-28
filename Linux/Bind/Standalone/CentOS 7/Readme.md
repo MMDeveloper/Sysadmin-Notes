@@ -19,6 +19,17 @@ chown -R named:named /var/named/chroot/var/named/
 chown -R named:named /var/named/chroot/etc/
 ```
 
+#Firewall#
+First we need to determine which zones are active
+```
+firewall-cmd --get-active-zones
+```
+In my dev environment, I only have one zone called `internal` active. Now we open the DNS ports for the target zone
+```
+firewall-cmd --zone=internal --add-port=53/tcp --permanent
+firewall-cmd --zone=internal --add-port=53/udp --permanent
+```
+
 #Partitioning#
 Whether or not you're going to be using your BIND service for both Internal and External DNS, it's good practice to go ahead and partition it for that, it's very easy. For partitioning, you'll create an ACL with your internal addresses (plus localhost). You wrap your zone files within "views", an internal view and an external view. The different views use your ACL to determine which zone files to read from for a DNS query response based on the client's IP address. You can review the sample config from my own DNS server to see it in action.
 

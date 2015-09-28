@@ -24,6 +24,16 @@ unixsocketperm 777
 #unixsocket /tmp/redis.sock
 #unixsocketperm 777
 
+#Firewall#
+First we need to determine which zones are active
+```
+firewall-cmd --get-active-zones
+```
+In my dev environment, I only have one zone called `internal` active. Now we open the DB port for the target zone
+```
+firewall-cmd --zone=internal --add-port=6379/tcp --permanent
+```
+
 ### You might want to require a password to connect to the redis instance
 requirepass supersecretpassword
 ```

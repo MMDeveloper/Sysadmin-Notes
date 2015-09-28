@@ -114,3 +114,14 @@ WantedBy=multi-user.target
 systemctl daemon-reload
 systemctl enable nginx.service
 ```
+
+#Firewall#
+First we need to determine which zones are active
+```
+firewall-cmd --get-active-zones
+```
+In my dev environment, I only have one zone called `internal` active. Now we open the web ports for the target zone
+```
+firewall-cmd --zone=internal --add-port=80/tcp --permanent
+firewall-cmd --zone=internal --add-port=443/tcp --permanent
+```

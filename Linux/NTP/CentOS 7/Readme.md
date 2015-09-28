@@ -26,3 +26,13 @@ restart the NTP service and verify functionality.
 ```
 ntpq -p
 ```
+
+#Firewall#
+First we need to determine which zones are active
+```
+firewall-cmd --get-active-zones
+```
+In my dev environment, I only have one zone called `internal` active. Now we open the NTP port for the target zone
+```
+firewall-cmd --zone=internal --add-port=123/udp --permanent
+```
