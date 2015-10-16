@@ -73,7 +73,7 @@ If you plan on making LDAPS calls, you'll need to make your webserver trust the 
 
 make sure the dependencies are installed
 ```
-yum install openssl php56-php-ldap openldap
+yum install openssl php70-php-ldap openldap
 vim /etc/openldap/ldap.conf
 ```
 
