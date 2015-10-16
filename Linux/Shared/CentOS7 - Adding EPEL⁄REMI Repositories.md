@@ -4,11 +4,13 @@ rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 ```
 
-### Now go set the repositories as enabled:
+### Now open this file
 ```
 vim /etc/yum.repos.d/epel.repo
 ```
 
+### Paste this data and save
+```
 [epel]
 name=Extra Packages for Enterprise Linux 7 - $basearch
 #baseurl=http://download.fedoraproject.org/pub/epel/7/$basearch
@@ -35,11 +37,15 @@ failovermethod=priority
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
 gpgcheck=1
+```
 
+### Now open this file
 ```
 vim /etc/yum.repos.d/remi.repo
 ```
 
+### Paste this data and save
+```
 [remi]
 name=Les RPM de remi pour Enterprise Linux 7 - $basearch
 #baseurl=http://rpms.famillecollet.com/enterprise/7/remi/$basearch/
@@ -62,7 +68,7 @@ baseurl=http://rpms.remirepo.net/enterprise/7/debug-php70/$basearch/
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-
+```
 
 ### Update repository cache ###
 ```
