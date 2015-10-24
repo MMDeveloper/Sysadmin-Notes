@@ -46,7 +46,7 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 
 
-#If using HAProxy for SSL#
+#If using HAProxy for SSL
 HAProxy requires certificates in the PEM format which is basically the ssl CRT file, any intermediate certs, and then the server key. The order is important. You're specifying a chain from the CA to your server's key.
 ```
 cat /etc/ssl/SSLCert.crt /etc/ssl/ItermediateCert.crt /etc/ssl/server.key > /etc/ssl/ssl.pem
@@ -54,7 +54,7 @@ cat /etc/ssl/SSLCert.crt /etc/ssl/ItermediateCert.crt /etc/ssl/server.key > /etc
 
 
 
-#If using NGINX for SSL#
+#If using NGINX for SSL
 ### Now in NGINX, create a vhost that uses SSL. These are the options
 ### I use for a hardened SSL install with forward secrecy.
 ### learn more about SSL hardening at ssllabs.com
