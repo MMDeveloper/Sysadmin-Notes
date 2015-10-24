@@ -25,6 +25,7 @@ openssl rsa -in server.key.org -out server.key
 ```
 
 ### create DHE key
+This takes a while
 ```
 openssl dhparam -out dhparam.pem 4096
 ```
