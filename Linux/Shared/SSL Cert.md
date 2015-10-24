@@ -1,56 +1,80 @@
 ### install openSSL if not installed already
+```
 yum install openssl
+```
 
 
 ### make and go to nginx ssl work directory
-mkdir -p /etc/nginx/ssl
-cd /etc/nginx/ssl/
+```
+mkdir -p /etc/ssl
+cd /etc/ssl/
+```
 
 
 ### create key and signing request
+```
 openssl genrsa -aes256 -out server.key 2048
 openssl req -new -key server.key -out server.csr
+```
 
 
 ### remove passphrase from key
+```
 cp server.key server.key.org
 openssl rsa -in server.key.org -out server.key
+```
 
 ### create DHE key
+```
 openssl dhparam -out dhparam.pem 4096
+```
 
 
 ### IF USING VALID CERTIFICATE
 ### Submit your CSR to your CA
 ### Your CA will return a signed crt file
 ### append CA cert to your local crt
+```
 cat DigiCertCA.crt >> server.crt
+```
 
 
 ### IF SELF SIGNING SSL CERT
-openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt 
+```
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+```
 
 
 
+#If using HAProxy for SSL#
+HAProxy requires certificates in the PEM format which is basically the ssl CRT file, any intermediate certs, and then the server key. The order is important. You're specifying a chain from the CA to your server's key.
+```
+cat /etc/ssl/SSLCert.crt /etc/ssl/ItermediateCert.crt /etc/ssl/server.key > /etc/ssl/ssl.pem
+```
 
+
+
+#If using NGINX for SSL#
 ### Now in NGINX, create a vhost that uses SSL. These are the options
 ### I use for a hardened SSL install with forward secrecy.
 ### learn more about SSL hardening at ssllabs.com
+```
 server {
   listen   443;
       ssl    on;
-      ssl_certificate    /etc/nginx/ssl/server.crt
-      ssl_certificate_key    /etc/nginx/ssl/server.key;
-      
+      ssl_certificate    /etc/ssl/server.crt
+      ssl_certificate_key    /etc/ssl/server.key;
+
       ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
       ssl_prefer_server_ciphers on;
       ssl_session_cache shared:SSL:10m;
-      ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+      ssl_dhparam /etc/ssl/dhparam.pem;
       ssl_stapling on;
       ssl_stapling_verify on;
       add_header Strict-Transport-Security max-age=63072000;
       add_header X-Frame-Options DENY;
       add_header X-Content-Type-Options nosniff;
-      
+
       ...other-config...
 }
+```
