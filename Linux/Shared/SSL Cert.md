@@ -48,9 +48,9 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 
 #If using HAProxy for SSL
-HAProxy requires certificates in the PEM format which is basically the ssl CRT file, any intermediate certs, and then the server key. The order is important. You're specifying a chain from the CA to your server's key.
+HAProxy requires certificates in the PEM format which is basically the ssl CRT file, any intermediate certs, and then the server key. The order is important. You're specifying a chain from the CA to your server's key. If using DigiCert, use the "apache" export model.
 ```
-cat /etc/ssl/SSLCert.crt /etc/ssl/ItermediateCert.crt /etc/ssl/server.key > /etc/ssl/ssl.pem
+cat /etc/ssl/server.key /etc/ssl/SSLCert.crt /etc/ssl/CA.crt /etc/ssl/ItermediateCert.crt > /etc/ssl/ssl.pem
 ```
 
 

@@ -5,7 +5,6 @@ I wanted to experiment with the nginx TRIM module, but it did not come with the 
 First thing I needed to do was download the latest stable tarball of nginx, the latest stable tarball of the Trim module, and the latest stable tarball of the MaxMind GeoIP database (as I use the GeoIP functionality).
 
 Download the latest nginx tarball from: http://nginx.org/en/download.html
-The latest Trim module tarball from: http://wiki.nginx.org/HttpStripModule
 The latest GeoIP Database tarball from: http://geolite.maxmind.com/download/geoip/api/c/GeoIP.tar.gz
 ```
 cd /usr/src/
@@ -16,11 +15,8 @@ tar -xvf nginx.tar
 rm nginx.tar
 cd nginx-1.9.4 #or whatever the subfolder is called
 mkdir modules && cd modules
-wget url://to/trim-module.tar.gz
 wget url://to/maxmind/geoip.tar.gz
-gunzip trim-module.tar.gz
 gunzip geoip.tar.gz
-tar -xvf trim-module.tar
 tar -xvf geoip.tar
 rm trim-module.tar geoip.tar
 ```
@@ -59,30 +55,24 @@ Now we need to configure and compile nginx
     --with-file-aio \
     --with-ipv6 \
     --with-http_ssl_module \
-    --with-http_spdy_module \
+    --with-http_v2_module \
     --with-http_realip_module \
     --with-http_addition_module \
-    --with-http_xslt_module \
     --with-http_geoip_module \
     --with-http_sub_module \
-    --with-http_dav_module \
     --with-http_flv_module \
     --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-http_gzip_static_module \
-    --with-http_random_index_module \
     --with-http_secure_link_module \
     --with-http_degradation_module \
     --with-http_stub_status_module \
-    --with-http_perl_module \
     --with-mail --with-mail_ssl_module \
     --with-pcre --with-pcre-jit \
     --with-debug \
     --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
-    --with-ld-opt='-Wl,-R,/usr/local/lib -L /usr/local/lib,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' \
-    --add-module=/usr/src/nginx/nginx-1.9.4/modules/mod_strip
+    --with-ld-opt='-Wl,-R,/usr/local/lib -L /usr/local/lib,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E'
 
-#Take note of the last line, the --add-module should point to the path of the mod_strip folder (in the modules folder we created).
 make
 make install
 ```
