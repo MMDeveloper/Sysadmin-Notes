@@ -77,7 +77,7 @@ Now try to SSH to 10.0.0.2 as the clientuser0 user in another session and it sho
 #PasswordAuthentication no
 ```
 
-#Firewall#
+#Firewall (systemd)#
 First we need to determine which zones are active
 ```
 firewall-cmd --get-active-zones
@@ -87,6 +87,7 @@ In my dev environment, I only have one zone called `internal` active. Now we ope
 firewall-cmd --zone=internal --add-port=22/tcp --permanent
 ```
 
+#Troubleshooting#
 If the Key authentication fails, more often than not it will be the permissions on the ~/.ssh and the files within that folder on the CLIENT side. Below are the correct permissions
 ```
 #Client Side
