@@ -8,8 +8,6 @@ $ORIGIN local.mm.
             86400 )
 @                   IN  NS          mmprivatecloud.local.mm.
 @                   IN  A           10.0.0.7
-mmprivatecloud      IN  A   10.0.0.7
-www                 IN CNAME mmprivatecloud.local.mm.
-dev                 IN CNAME mmprivatecloud.local.mm.
-bcassets            IN CNAME mmprivatecloud.local.mm.
-da                  IN CNAME mmprivatecloud.local.mm.
+mmprivatecloud      IN  A           10.0.0.7
+www                 IN  CNAME       mmprivatecloud.local.mm.
+dev                 IN  CNAME       mmprivatecloud.local.mm.
