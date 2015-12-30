@@ -1,8 +1,5 @@
-#Introduction#
-I wanted to experiment with the nginx TRIM module, but it did not come with the epel version of nginx. I needed to compile from source. Below are my experiences to make this happen.
-
 #Downloading Source#
-First thing I needed to do was download the latest stable tarball of nginx, the latest stable tarball of the Trim module, and the latest stable tarball of the MaxMind GeoIP database (as I use the GeoIP functionality).
+First thing I needed to do was download the latest stable tarball of nginx, and the latest stable tarball of the MaxMind GeoIP database (as I use the GeoIP functionality).
 
 Download the latest nginx tarball from: http://nginx.org/en/download.html
 The latest GeoIP Database tarball from: http://geolite.maxmind.com/download/geoip/api/c/GeoIP.tar.gz
@@ -13,15 +10,15 @@ wget url://to/nginx/nginx.tar.gz
 gunzip nginx.tar.gz
 tar -xvf nginx.tar
 rm nginx.tar
-cd nginx-1.9.4 #or whatever the subfolder is called
+cd nginx-1.9.9 #or whatever the subfolder is called
 mkdir modules && cd modules
 wget url://to/maxmind/geoip.tar.gz
 gunzip geoip.tar.gz
 tar -xvf geoip.tar
-rm trim-module.tar geoip.tar
+rm geoip.tar
 ```
 
-We should now have a directory of /usr/src/nginx/nginx-1.9.4/, and inside that folder is a modules folder with 2 directories (trim and geoip). First thing is first, we need to install GeoIP.
+We should now have a directory of /usr/src/nginx/nginx-1.9.9/, and inside that folder is a modules folder with 1 directory for geoip. First thing is first, we need to install GeoIP.
 #Compiling#
 ```
 cd GeoIP
@@ -103,6 +100,7 @@ WantedBy=multi-user.target
 
 systemctl daemon-reload
 systemctl enable nginx.service
+systemctl restart nginx.service
 ```
 
 #Firewall#
