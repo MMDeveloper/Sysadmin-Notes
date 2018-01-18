@@ -2,13 +2,13 @@
 See Installing the Epel/Remi repositories
 
 ```
-yum install php70 php70-php-fpm php70-php-common php70-php-pear php70-php-pdo php70-php-pgsql php70-php-opcache php70-php-gd php70-php-mbstring php70-php-mcrypt php70-php-xml php70-php-mysqlnd
-systemctl enable php70-php-fpm.service
+yum install php72 php72-php-fpm php72-php-common php72-php-pear php72-php-pdo php72-php-pgsql php72-php-opcache php72-php-gd php72-php-mbstring php72-php-mcrypt php72-php-xml php72-php-mysqlnd
+systemctl enable php72-php-fpm.service
 ```
 
 #Configuration#
 ```
-vim /etc/opt/remi/php70/php.ini
+vim /etc/opt/remi/php72/php.ini
 ```
 > ####update the php.ini file with the contents below####
 
@@ -19,14 +19,14 @@ date.timezone = America/New_York
 ```
 
 ```
-vim /etc/opt/remi/php70/php-fpm.d/www.conf
+vim /etc/opt/remi/php72/php-fpm.d/www.conf
 ```
 > ####update the www.conf file with the contents below####
 
  - comment out the 'listen' lines near the top
  - add these three lines
 ````
-listen = /var/run/php70-fpm-0.sock
+listen = /var/run/php72-fpm-0.sock
 listen.owner = nginx
 listen.group = nginx
 ```

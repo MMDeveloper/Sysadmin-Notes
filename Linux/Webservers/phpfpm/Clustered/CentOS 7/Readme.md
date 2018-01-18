@@ -2,13 +2,13 @@
 See Installing the Epel/Remi repositories
 
 ```
-yum install php70 php70-php-fpm php70-php-common php70-php-pear php70-php-pdo php70-php-pgsql php70-php-opcache php70-php-gd php70-php-mbstring php70-php-mcrypt php70-php-xml php70-php-mysqlnd
-systemctl enable php70-php-fpm.service
+yum install php72 php72-php-fpm php72-php-common php72-php-pear php72-php-pdo php72-php-pgsql php72-php-opcache php72-php-gd php72-php-mbstring php72-php-mcrypt php72-php-xml php72-php-mysqlnd
+systemctl enable php72-php-fpm.service
 ```
 
 #Configuration#
 ```
-vim /etc/opt/remi/php70/php.ini
+vim /etc/opt/remi/php72/php.ini
 ```
 > ####update the php.ini file with the contents below####
 
@@ -19,7 +19,7 @@ date.timezone = America/New_York
 ```
 
 ```
-vim /etc/opt/remi/php70/php-fpm.d/www.conf
+vim /etc/opt/remi/php72/php-fpm.d/www.conf
 ```
 > ####update the php-fpm.conf file with the contents below####
 
@@ -27,9 +27,9 @@ include=/var/www/internal/conf/php-fpm/pools
 
 Now we'll move the config files to the clustered locations for synchronization
 ```
-mv /etc/opt/remi/php70/php.ini /var/www/internal/conf/php-fpm/
-ln -s /var/www/internal/conf/php-fpm/php.ini /etc/opt/remi/php70/
-cp /etc/opt/remi/php70/php-fpm.d/www.conf /var/www/internal/conf/php-fpm/pools/www0.conf
+mv /etc/opt/remi/php72/php.ini /var/www/internal/conf/php-fpm/
+ln -s /var/www/internal/conf/php-fpm/php.ini /etc/opt/remi/php72/
+cp /etc/opt/remi/php72/php-fpm.d/www.conf /var/www/internal/conf/php-fpm/pools/www0.conf
 vim /var/www/internal/conf/php-fpm/pools/www0.conf
 ```
 > ####update the www0.conf file with the contents below####
@@ -38,7 +38,7 @@ vim /var/www/internal/conf/php-fpm/pools/www0.conf
  - comment out the 'listen' lines near the top
  - add these three lines
 ````
-listen = /var/run/php70-fpm-0.sock
+listen = /var/run/php72-fpm-0.sock
 listen.owner = nginx
 listen.group = nginx
 ```
