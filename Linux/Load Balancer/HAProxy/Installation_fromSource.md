@@ -3,21 +3,21 @@ This will be a short how-to on compiling the latest haproxy from source. This ro
 
 #Downloading Source#
 All we need to do is download the latest haproxy tarball from http://www.haproxy.org/#down
-The current version as of this writing is 1.8.2
+The current version as of this writing is 1.9
 
 ```
 cd /usr/src
 mkdir haproxy
 cd haproxy
-wget http://www.haproxy.org/download/1.5/src/haproxy-1.8.2.tar.gz
-gunzip haproxy-1.8.2.tar.gz
-tar -xvf haproxy-1.8.2.tar
+wget http://www.haproxy.org/download/1.5/src/haproxy-1.9.tar.gz
+gunzip haproxy-1.9.tar.gz
+tar -xvf haproxy-1.9.tar
 ```
 
 #Compiling#
 To compile haproxy from source, they require you specify `make` parameters. With this you can use pre-configured compile options or use a totally custom configuration. What fits my use-case is a prebuilt config plus a few extra custom parameters. You can learn about specific make targets at https://github.com/haproxy/haproxy
 ```
-make TARGET=linux2628 USE_PCRE=1 USE_LIBCRYPT=1 USE_OPENSSL=yes
+make TARGET=linux2628 USE_PCRE=1 USE_LIBCRYPT=1 USE_OPENSSL=yes USE_SYSTEMD=1
 make install
 ```
 
@@ -30,7 +30,7 @@ Description=HAProxy Load Balancer
 After=syslog.target network.target
 
 [Service]
-ExecStart=/usr/local/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid
+ExecStart=ExecStart=/usr/local/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -Ws
 ExecReload=/bin/kill -USR2 $MAINPID
 
 [Install]

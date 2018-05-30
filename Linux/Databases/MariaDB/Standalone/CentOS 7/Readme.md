@@ -14,7 +14,7 @@ yum update
 ```
 #Installation#
 ```
-yum install MariaDB-client MariaDB-Galera-server galera
+yum install mariadb-client galera mariadb-server
 systemctl enable mariadb.service
 ```
 #Configuration#

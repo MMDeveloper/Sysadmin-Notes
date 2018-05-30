@@ -14,7 +14,7 @@ yum update
 ```
 #Installation#
 ```
-yum install MariaDB-client MariaDB-Galera-server galera
+yum install mariadb-client galera mariadb-server
 systemctl enable mariadb.service
 ```
 #Configuration#
@@ -31,7 +31,13 @@ firewall-cmd --get-active-zones
 ```
 In my dev environment, I only have one zone called `internal` active. Now we open the DB port for the target zone
 ```
-firewall-cmd --zone=internal --add-port=3306/tcp --permanent
+firewall-cmd --zone=public --add-service=mysql --permanent
+firewall-cmd --zone=public --add-port=3306/tcp --permanent
+firewall-cmd --zone=public --add-port=4567/tcp --permanent
+firewall-cmd --zone=public --add-port=4568/tcp --permanent
+firewall-cmd --zone=public --add-port=4444/tcp --permanent
+firewall-cmd --zone=public --add-port=4567/udp --permanent
+firewall-cmd --reload
 ```
 
 > ###Do not start the DB service yet###
@@ -42,18 +48,18 @@ When building a new cluster, you need at least 2 DB servers ready to go, minimum
 
  - Set the cluster name parameter to something unique
  - Set the node name to the servers hostname, must be unique
- - The wsrep_cluster_address should be gcomm://
+ - The wsrep_cluster_address should be gcomm://ip,ip,ip,etc to show a list of all the known nodes that will join
 
 ####Now, start the 'master' DB server####
 ```
-systemctl bootstrap mariadb.service
+galera_new_cluster
 ```
 The cluster is waiting for a second server to join. Now go to your next DB server and follow the 'adding a node' instructions. Once you've added a second node, stop the DB service on this host. Update the server.cnf file and change the gcomm:// parameter to a comma delimited list of ALL IP addresses of all nodes except THIS server. Stop and start the DB service on this host and it will 'join the cluster'. It may or may not do an SST Transfer, depending if data changed on the other nodes while you were doing this.
 
 #Adding a node to an existing cluster#
 The only config-differences between the first node and an existing node is the cluster address, the node address, and the node name. The cluster address parameter tells the DB server all of the IPs to try and connect to; to try and pull the cluster configuration and sync its databases, otherwise fail. The node address is simply the servers IP address. The node name is a unique ID for that node in that cluster, typically the server hostname The cluster address now should be a comma delimited address of the IPs (or DNS records) of all the other DB servers in the cluster. For example, if I have a 3 server pool (192.168.3.1-3) and wish to add a .4 server, the two parameters would look like this:
 
- - wsrep_cluster_address=gcomm://192.168.3.1,192.168.3.2,192.168.3.3
+ - wsrep_cluster_address=gcomm://ip,ip,ip,etc to show a list of all the known nodes that will join
  - wsrep_node_address='192.168.3.4'
  - wsrep_node_name='DB4'
 
@@ -64,7 +70,7 @@ The cluster address should be a list of all node IPs except the IP of this serve
 systemctl start mariadb.service
 ```
 
-You should see it start the DB process and do what's called an SST Transfer. This means it has joined the cluster and is syncing the databases. Once the sync is complete, you will get your command prompt back.
+You should see it start the DB process and do what's called an SST Transfer. This means it has joined the cluster and is syncing the databases. Once the sync is complete, you will get your command prompt back. Once you have joined the first real node, restart the mariadb service on the bootstrapped node.
 
 #Maintaining the Cluster#
 With this type of cluster, you can reboot DB servers at will and no data loss will occur. The load balancer has a MySQL user that it uses to check the server is up. As soon as it senses the server is going down it immediately removes it from the pool until it's back up.
