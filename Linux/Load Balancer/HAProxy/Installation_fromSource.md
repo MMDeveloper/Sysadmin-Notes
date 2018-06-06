@@ -9,9 +9,9 @@ The current version as of this writing is 1.9
 cd /usr/src
 mkdir haproxy
 cd haproxy
-wget http://www.haproxy.org/download/1.5/src/haproxy-1.9.tar.gz
-gunzip haproxy-1.9.tar.gz
-tar -xvf haproxy-1.9.tar
+wget https://www.haproxy.org/download/1.8/src/haproxy-1.8.9.tar.gz
+gunzip haproxy-1.8.9.tar.gz
+tar -xvf haproxy-1.8.9.tar
 ```
 
 #Compiling#
@@ -23,24 +23,36 @@ make install
 
 #Creating systemd service#
 ```
-vim /usr/lib/systemd/system/haproxy.service
+vi /usr/lib/systemd/system/haproxy.service
 #paste the following contents
 [Unit]
 Description=HAProxy Load Balancer
 After=syslog.target network.target
 
 [Service]
-ExecStart=ExecStart=/usr/local/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -Ws
+ExecStart=/usr/local/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -Ws
 ExecReload=/bin/kill -USR2 $MAINPID
 
 [Install]
 WantedBy=multi-user.target
+```
 
 
-
+Now run the following
+```
 systemctl daemon-reload
 systemctl enable haproxy.service
+useradd haproxy
+groupadd haproxy
+usermod -a -G haproxy haproxy
+mkdir -p /var/lib/haproxy
+mkdir -p /usr/share/haproxy
+mkdir -p /etc/haproxy
+touch /etc/haproxy.cfg
 ```
+
+#Firewall#
+Depending on which services you will be using behind HAProxy, you will need to poke holes in your OS firewall
 
 #Certificate Pinning#
 If you want to use public certificate pinning to thwart MITM attacks, you'll first need to extract the base64 encoded version of your SPKI fingerprint. If your SSL Cert is already installed and working, run this command
