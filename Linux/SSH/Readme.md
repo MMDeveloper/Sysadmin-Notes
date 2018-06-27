@@ -16,22 +16,22 @@ What I like to do is specify settings in the config, even if they are the defaul
 ```
 Port 22
 Protocol 2
-
-HostKey /etc/ssh/ssh_host_ed25519_key
 HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_ecdsa_key
-
+HostKey /etc/ssh/ssh_host_ed25519_key
 KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
-
 Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
-
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
-
-AuthenticationMethods publickey
+#AuthenticationMethods publickey
 PermitRootLogin no
 AllowGroups sshusers
 UsePrivilegeSeparation sandbox
 UseDNS no
+IgnoreRhosts yes
+HostbasedAuthentication no
+PermitEmptyPasswords no
+UsePam yes
+MaxAuthTries 2
+X11Forwarding no
 Subsystem sftp /usr/libexec/openssh/sftp-server -f AUTHPRIV -l INFO
 ```
 
@@ -57,14 +57,15 @@ usermod -a -G sshusers clientuser0
 
 #Before you exit this console session (if you're doing this remotely)#
 
-We need to do a key exchange between your user account on a client machine and this SSH server (because we will disable password based authentication once this works). From the ssh client run this
+We need to create a key and do a key exchange between your user account on a client machine and this SSH server (because we will disable password based authentication once this works). From the ssh client run this
 ```
+ssh-keygen -t ed25519
 ssh-copy-id clientuser0@10.0.0.2
 ```
 
 Now try to SSH to 10.0.0.2 as the clientuser0 user in another session and it should authenticate successfully without a password prompt. If this has happened, you are done. Now re-edit the /etc/ssh/sshd_config and uncomment the following line and restart your SSHD service.
 ```
-#PasswordAuthentication no
+#AuthenticationMethods publickey
 ```
 
 #Firewall (systemd)#
@@ -84,8 +85,8 @@ If the Key authentication fails, more often than not it will be the permissions 
 ```
 #Client Side
 chmod 700 ~/.ssh/
-chmod 600 ~/.ssh/id_rsa
-chmod 655 ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/id_ed25519
+chmod 655 ~/.ssh/id_ed25519.pub
 
 #Server Side
 chmod -R 600 /home/clientuser0/.ssh/*
