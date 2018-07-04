@@ -1,8 +1,7 @@
 #Downloading Source#
 First thing I needed to do was download the latest stable tarball of nginx, and the latest stable tarball of the MaxMind GeoIP database (as I use the GeoIP functionality).
 
-Download the latest nginx tarball from: http://nginx.org/en/download.html
-The latest GeoIP Database tarball from: http://geolite.maxmind.com/download/geoip/api/c/GeoIP.tar.gz
+Download the latest nginx tarball from: http://nginx.org/en/download.html The latest GeoIP Database tarball from: http://geolite.maxmind.com/download/geoip/api/c/GeoIP.tar.gz
 ```
 cd /usr/src/
 mkdir nginx && cd nginx
@@ -18,8 +17,9 @@ tar -xvf geoip.tar
 rm geoip.tar
 ```
 
-We should now have a directory of /usr/src/nginx/nginx-1.9.9/, and inside that folder is a modules folder with 1 directory for geoip. First thing is first, we need to install GeoIP.
 #Compiling#
+
+We should now have a directory of /usr/src/nginx/nginx-1.9.9/, and inside that folder is a modules folder with 1 directory for geoip. First thing is first, we need to install GeoIP.
 ```
 cd GeoIP
 ./configure --prefix=/usr/local
@@ -50,7 +50,6 @@ Now we need to configure and compile nginx
     --lock-path=/run/lock/subsys/nginx \
     --user=nginx --group=nginx \
     --with-file-aio \
-    --with-ipv6 \
     --with-http_ssl_module \
     --with-http_v2_module \
     --with-http_realip_module \
@@ -76,7 +75,7 @@ make install
 
 #Creating systemd service#
 ```
-vim /usr/lib/systemd/system/nginx.service
+vi /usr/lib/systemd/system/nginx.service
 #paste the following contents
 [Unit]
 Description=The nginx HTTP and reverse proxy server
