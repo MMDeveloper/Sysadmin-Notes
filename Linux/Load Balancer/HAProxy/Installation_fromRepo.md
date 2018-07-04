@@ -1,14 +1,18 @@
-#Installation of HAProxy on CentOS 6#
-```
-yum install haproxy
-chkconfig --add haproxy
-chkconfig --level 345 haproxy on
-```
-
 #Installation of HAProxy on CentOS 7#
 ```
 yum install haproxy
 systemctl enable haproxy.service
+```
+
+#Sysctl Modifications#
+For advanced TCP tuning, I'd recommend taking the contents of 'sysctl.conf settings.md' and pasting it into /etc/sysctl.conf and running `sysctl -p` to apply the new configuration.
+
+#Firewall#
+Depending on which services you will be using behind HAProxy, you will need to poke holes in your OS firewall. For example:
+```
+firewall-cmd --get-active-zones
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --zone=public --add-port=443/tcp --permanent
 ```
 
 #Certificate Pinning#

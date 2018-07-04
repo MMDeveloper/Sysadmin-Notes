@@ -48,11 +48,19 @@ usermod -a -G haproxy haproxy
 mkdir -p /var/lib/haproxy
 mkdir -p /usr/share/haproxy
 mkdir -p /etc/haproxy
-touch /etc/haproxy.cfg
+touch /etc/haproxy/haproxy.cfg
 ```
 
+#Sysctl Modifications#
+For advanced TCP tuning, I'd recommend taking the contents of 'sysctl.conf settings.md' and pasting it into /etc/sysctl.conf and running `sysctl -p` to apply the new configuration.
+
 #Firewall#
-Depending on which services you will be using behind HAProxy, you will need to poke holes in your OS firewall
+Depending on which services you will be using behind HAProxy, you will need to poke holes in your OS firewall. For example:
+```
+firewall-cmd --get-active-zones
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --zone=public --add-port=443/tcp --permanent
+```
 
 #Certificate Pinning#
 If you want to use public certificate pinning to thwart MITM attacks, you'll first need to extract the base64 encoded version of your SPKI fingerprint. If your SSL Cert is already installed and working, run this command

@@ -2,7 +2,7 @@
 
 ### This will check all processes you wish to monitor
 ### In the event one of them is 'down', it will trigger
-### a failover to the next-in-line HAProxy server
+### a failover to the next-in-line node
 
 killall -0 haproxy 2> /dev/null
 if [ $? -eq 1 ]
