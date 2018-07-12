@@ -35,6 +35,8 @@ ProductIds 506 533
 
 Now we need to configure and compile nginx
 ```
+yum install redhat-rpm-config
+
 ./configure \
     --prefix=/usr/share/nginx \
     --sbin-path=/usr/sbin/nginx \
