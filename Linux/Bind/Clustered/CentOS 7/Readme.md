@@ -50,10 +50,16 @@ vim /var/named/chroot/etc/named.conf
 ```
 Paste this line near the top, outside of any declaration block
 ```
-include "/var/named/chroot/etc/rndc.key";
+key DHCP_UPDATER {
+    algorithm HMAC-MD5.SIG-ALG.REG.INT;
+
+    # Important: Replace this key with your generated key.
+    # Also note that the key should be surrounded by quotes.
+    secret "asdfasdfasdfasdf/adsf==";
+};
 ```
 Now for each zone that will receive DDNS updates from Bind, put this as their allow-update setting
 ```
-allow-update { key rndc-key; };
+allow-update { key DHCP_UPDATER; };
 ```
 Now cycle both BIND and DHCP and you should be good to go.

@@ -15,10 +15,11 @@ If you have DHCPD running on a linux box and wish to push DDNS to your BIND serv
 
 First we need to generate a rndc key
 ```
-rndc-confgen -a -r /dev/urandom -t /var/named/chroot
-chown named:named /var/named/chroot/etc/rndc.key
+dnssec-keygen -r /dev/urandom -a HMAC-MD5 -b 128 -n USER DHCP_UPDATER
+cat Kdhcp_updater.*.private|grep Key
+>>Key: asdfasdfasdfasdf/adsf==
 ```
-That should make a /var/named/chroot/etc/rndc.key file with correct permissions. Now we need to make a few config changes to dhcpd.conf
+Now we need to make a few config changes to dhcpd.conf
 
 ```
 vim /etc/dhcp/dhcpd.conf
@@ -29,17 +30,28 @@ authoritative;
 ddns-updates on;
 ddns-update-style interim;
 use-host-decl-names on;
-allow client-updates;
-include "/var/named/chroot/etc/rndc.key";
+ignore client-updates;
+ddns-domainname "yourlocaldnsdomain.com.";
+ddns-rev-domainname "2.0.10.in-addr.arpa.";
+
+
+key DHCP_UPDATER {
+    algorithm HMAC-MD5.SIG-ALG.REG.INT;
+
+    # Important: Replace this key with your generated key.
+    # Also note that the key should be surrounded by quotes.
+    secret "asdfasdfasdfasdf/adsf==";
+};
+
 
 zone yourlocaldnsdomain.com. { #the dns suffix domain
-    primary 10.0.0.7; #the IP address of the BIND server
-    key rndc-key;
+    primary 10.0.2.1; #the IP address of the BIND server
+    key DHCP_UPDATER;
 }
 
-zone 0.0.10.in-addr.arpa. { #the reverse lookup zone
-    primary 10.0.0.7; #the IP address of the BIND server
-    key rndc-key;
+zone 2.0.10.in-addr.arpa. { #the reverse lookup zone
+    primary 10.0.2.1; #the IP address of the BIND server
+    key DHCP_UPDATER;
 }
 ```
 
