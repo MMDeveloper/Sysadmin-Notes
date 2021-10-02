@@ -1,0 +1,11 @@
+HTTP/1.0 200 Found
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+
+<html>
+<head>
+</head>
+<body>
+</body>
+</html>
