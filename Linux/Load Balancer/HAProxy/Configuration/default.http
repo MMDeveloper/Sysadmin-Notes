@@ -1,4 +1,4 @@
-HTTP/1.0 200 Found
+HTTP/1.0 403 Forbidden
 Cache-Control: no-cache
 Connection: close
 Content-Type: text/html
@@ -7,5 +7,6 @@ Content-Type: text/html
 <head>
 </head>
 <body>
+Forbidden
 </body>
 </html>
