@@ -1,8 +1,7 @@
- 
 class adobeManagement {
-    hidden [string] $org_id = '1234@AdobeOrg'
-    hidden [string] $api_key = 'my-server-to-server-api-key'
-    hidden [string] $client_secret = 'my-server-to-server-client-secret'
+    hidden [string] $org_id = 'some-id@AdobeOrg'
+    hidden [string] $api_key = 'some-api-key'
+    hidden [string] $client_secret = 'client-secret'
     hidden [string] $apiURLBase = 'https://usermanagement.adobe.io/v2/usermanagement'
     hidden [string] $getTokenURL = 'https://ims-na1.adobelogin.com/ims/token/v3'
     hidden [PSCustomObject] $oAuthTokenInfo = @{}
@@ -71,12 +70,49 @@ class adobeManagement {
             } | ConvertTo-Json -Depth 10 -AsArray
         })
     }
+
+    [object] userNameChange([object] $___methodParams) {
+        $___methodParams.emailAddressFrom ??= $null
+        $___methodParams.emailAddressTo ??= $null
+        $___methodParams.firstNameTo ??= $null
+        $___methodParams.lastNameTo ??= $null
+
+        return $this.doAPIRequest(@{
+            url = "/action/$($this.org_id)"
+            requestMethod = 'POST'
+            body = @{
+                user = $___methodParams.emailAddressFrom
+                requestID = 'updateUser'
+                do = @(@{
+                    update = @{
+                        email = $___methodParams.emailAddressTo
+                        lastname = $___methodParams.lastNameTo
+                        firstname = $___methodParams.firstNameTo
+                    }
+                })
+            } | ConvertTo-Json -Depth 10 -AsArray
+        })
+    }
 }
 
 
-<#$adobeManagement = [adobeManagement]::new()
+<#
+
+$adobeManagement = [adobeManagement]::new()
 if ($adobeManagement.initOAuthAuthorization() -eq $true) {
     $adobeManagement.deleteTenantUser(@{
         emailAddress = 'reallynobody@mydomain.edu'
     })
-}#>
+}
+
+
+$a = $adobeManagement.userNameChange(@{
+    emailAddressFrom = 'reallynobody@mydomain.edu'
+    emailAddressTo = 'reallynobodyatall@mydomain.edu'
+    firstNameTo = 'Nobody'
+    lastNameTo = 'Really'
+})
+
+$a.errors | FL
+
+#>

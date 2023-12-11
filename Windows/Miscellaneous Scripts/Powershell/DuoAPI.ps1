@@ -577,7 +577,7 @@ class duoSecurity {
 #$duoSecurity.configInstance([string] $integrationKey, [string] $secretKey, [string] $apiHostname)
 
 <#remove users in duo who aren't in AD
-$users = $duoSecurity.get_duoUserByUsername('myusername')
+$users = $duoSecurity.get_duoUserByUsername('somesamaccountname')
 foreach ($user in $users.response) {
     try {
         $u = Get-ADUser $user.username -ErrorAction SilentlyContinue
@@ -593,12 +593,12 @@ foreach ($user in $users.response) {
 
 <#Add user, to duo group, and send enrollment email
 $duoSecurity.new_duoUser(@{
-        'username' = 'myusername'
-        'realname' = 'lastname, firstname'
+        'username' = 'flastname'
+        'realname' = 'Lastname, Firstname'
         'email'    = 'FirstLast@mydomain.edu'
     })
 
-$user = $duoSecurity.get_duoUserByUsername('myusername')
+$user = $duoSecurity.get_duoUserByUsername('flastname')
 $group = $duoSecurity.get_duoUserGroups(10, 0).response | Where-Object name -like 'Staff/Faculty'
 $duoSecurity.set_duoUserGroupAddMembershipByUserIDAndGroupID($user.response.user_id, $group.group_id)
 $duoSecurity.set_enrollDuoUser($user.response.username, $user.response.email, 2592000)
@@ -606,7 +606,7 @@ $duoSecurity.set_enrollDuoUser($user.response.username, $user.response.email, 25
 
 
 <#generate and retrieve bypass codes for user
-$user = $duoSecurity.get_duoUserByUsername('FirstLast@mydomain.edu')
+$user = $duoSecurity.get_duoUserByUsername('flastname@mydomain.edu')
 $duoSecurity.set_createDuoUserBypassCodesByUserID($user.response.user_id, 3, 600)
 $duoSecurity.get_duoUserBypassCodes($user.response.user_id, 10, 0)
 #>
