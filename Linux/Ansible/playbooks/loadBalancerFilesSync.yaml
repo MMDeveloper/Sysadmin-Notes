@@ -1,0 +1,115 @@
+#this will take files from one load balancer and distribute it to the other load balancers
+#it will also restart services needed to apply the newly copied files
+
+- name: Fetch Internal Loadbalancer Files
+  hosts: syncSource_loadbalancer_internal
+  gather_facts: false
+  tasks:
+    - name: HAProxy Config File
+      ansible.builtin.fetch:
+        src: /etc/haproxy/haproxy.cfg
+        dest: /etc/ansible/fromExternal/lbinternal_haproxy_haproxy.cfg
+        flat: true
+    - name: HAProxy Admin VLAN ACL
+      ansible.builtin.fetch:
+        src: /etc/haproxy/adminvlan.acl
+        dest: /etc/ansible/fromExternal/lbinternal_haproxy_adminvlan.acl
+        flat: true
+    - name: HAProxy PWManager ACL
+      ansible.builtin.fetch:
+        src: /etc/haproxy/whitelist_pwmanager.acl
+        dest: /etc/ansible/fromExternal/lbinternal_haproxy_whitelist_pwmanager.acl
+        flat: true
+    - name: HAProxy SSL Cert
+      ansible.builtin.fetch:
+        src: /etc/ssl/sslcerts/wildcard.pem
+        dest: /etc/ansible/fromExternal/lbinternal_haproxy_wildcard.pem
+        flat: true
+
+- name: Fetch External Loadbalancer Files
+  hosts: syncSource_loadbalancer_external
+  gather_facts: false
+  tasks:
+    - name: HAProxy Config File
+      ansible.builtin.fetch:
+        src: /etc/haproxy/haproxy.cfg
+        dest: /etc/ansible/fromExternal/lbexternal_haproxy_haproxy.cfg
+        flat: true
+    - name: HAProxy wwwtest ACL
+      ansible.builtin.fetch:
+        src: /etc/haproxy/whitelist_wwwtest.fqdn.edu.acl
+        dest: /etc/ansible/fromExternal/lbexternal_haproxy_whitelist_wwwtest.fqdn.edu.acl
+        flat: true
+
+- name: Copy Wildcard Cert
+  hosts: loadbalancers_internal:loadbalancers_external:!syncSource_loadbalancer_internal
+  gather_facts: false
+  become: yes
+  throttle: 1
+  tasks:
+    - name: HAProxy Config File
+      ansible.builtin.copy:
+        src: /etc/ansible/fromExternal/lbinternal_haproxy_wildcard.pem
+        dest: /etc/ssl/sslcerts/wildcard.pem
+        owner: root
+        group: root
+        mode: '0664'
+
+- name: Internal HAProxy Files
+  hosts: loadbalancers_internal:!syncSource_loadbalancer_internal
+  gather_facts: false
+  become: yes
+  throttle: 1
+  tasks:
+    - name: HAProxy Config File
+      ansible.builtin.copy:
+        src: /etc/ansible/fromExternal/lbinternal_haproxy_haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+        owner: root
+        group: root
+        mode: '0664'
+    - name: HAProxy Admin VLAN ACL
+      ansible.builtin.copy:
+        src: /etc/ansible/fromExternal/lbinternal_haproxy_adminvlan.acl
+        dest: /etc/haproxy/adminvlan.acl
+        owner: root
+        group: root
+        mode: '0664'
+    - name: HAProxy PWManager ACL
+      ansible.builtin.copy:
+        src: /etc/ansible/fromExternal/lbinternal_haproxy_whitelist_pwmanager.acl
+        dest: /etc/haproxy/whitelist_pwmanager.acl
+        owner: root
+        group: root
+        mode: '0664'
+
+- name: External HAProxy Files
+  hosts: loadbalancers_external:!syncSource_loadbalancer_external
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: HAProxy Config File
+      ansible.builtin.copy:
+        src: /etc/ansible/fromExternal/lbexternal_haproxy_haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+        owner: root
+        group: root
+        mode: '0664'
+    - name: HAProxy wwwtest ACL
+      ansible.builtin.copy:
+        src: /etc/ansible/fromExternal/lbexternal_haproxy_whitelist_wwwtest.fqdn.edu.acl
+        dest: /etc/haproxy/whitelist_wwwtest.fqdn.edu.acl
+        owner: root
+        group: root
+        mode: '0664'
+
+- name: Restart HAProxy
+  hosts: loadbalancers_internal:loadbalancers_external:!syncSource_loadbalancer_internal
+  gather_facts: false
+  throttle: 1
+  become: yes
+  tasks:
+    - name: Restart HAProxy
+      ansible.builtin.service:
+        name: haproxy
+        state: restarted

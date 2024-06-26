@@ -1,0 +1,19 @@
+#this will run updates on the linux server and immediately reboot if needed
+- name: OS Updates and Reboot
+  hosts: ntpservers
+  become: yes
+
+  tasks:
+    - name: Update Redhat
+      when: ansible_os_family == 'RedHat'
+      yum:
+        name: '*'
+        state: latest
+    - name: Check if reboot required
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required_file
+    - name: Reboot
+      reboot:
+        reboot_timeout: 300
+      when: reboot_required_file.stat.exists == true

@@ -1,0 +1,17 @@
+# This will check for updates on the target nodes and report back the available updates.
+#usage: ansible-playbook -i hosts checkyumupdates.yaml -e "nodes=webservers"
+#usage: ansible-playbook -i hosts checkyumupdates.yaml -e "nodes=all"
+
+- name: Check for Updates
+  hosts: "{{ nodes }}"
+  become: yes
+
+  tasks:
+    - name: Update YUM Cache
+      when: ansible_os_family == 'RedHat'
+      yum:
+        list: updates
+      register: updates
+    - debug: 
+        msg: "{{ updates.results | map(attribute='name') | list }}"
+        #msg: "{{ updates }}"

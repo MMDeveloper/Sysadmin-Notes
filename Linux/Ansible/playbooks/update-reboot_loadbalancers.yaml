@@ -1,0 +1,23 @@
+#this will run updates on the loadbalancers and reboot them one at a time if needed.
+#order of reboot is detemined by the order they are specified in the inventory file
+- name: OS Updates
+  hosts: loadbalancers_internal:loadbalancers_external
+  become: yes
+
+  tasks:
+    - name: Update Redhat
+      when: ansible_os_family == 'RedHat'
+      yum:
+        name: '*'
+        state: latest
+
+- name: Reboot
+  hosts: loadbalancers_internal:loadbalancers_external
+  become: yes
+  throttle: 1
+  gather_facts: no
+
+  tasks:
+    - name: Reboot
+      reboot:
+        reboot_timeout: 300

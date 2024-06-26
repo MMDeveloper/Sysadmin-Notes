@@ -1,0 +1,46 @@
+ntpservers:
+  hosts:
+    net-ntp.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/net-ntp.ed25519.key
+
+webservers:
+  hosts:
+    alias_webservernode0.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/webserver0.ed25519.key
+
+loadbalancers_internal:
+  hosts:
+    mdc-lbi00.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/loadbalancers.ed25519.key
+    mdc-lbi01.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/loadbalancers.ed25519.key
+
+loadbalancers_external:
+  hosts:
+    mdc-lbe00.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/loadbalancers.ed25519.key
+    mdc-lbe01.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/loadbalancers.ed25519.key
+
+loadbalancers_all:
+  children:
+    loadbalancers_internal:
+    loadbalancers_external:
+
+syncSource_loadbalancer_internal:
+  hosts:
+    mdc-lbi00.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/loadbalancers.ed25519.key
+
+syncSource_loadbalancer_external:
+  hosts:
+    mdc-lbe00.fqdn.edu:
+      ansible_user: ansible
+      ansible_ssh_private_key_file: /etc/ansible/sshKeys/loadbalancers.ed25519.key
