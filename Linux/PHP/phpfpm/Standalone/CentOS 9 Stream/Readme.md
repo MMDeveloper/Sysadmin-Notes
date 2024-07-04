@@ -1,14 +1,11 @@
-#Installation#
-See Installing the Epel/Remi repositories
-
 ```
-yum install php72 php72-php-fpm php72-php-common php72-php-pear php72-php-pdo php72-php-pgsql php72-php-opcache php72-php-gd php72-php-mbstring php72-php-mcrypt php72-php-xml php72-php-mysqlnd
-systemctl enable php72-php-fpm.service
+yum install php php-php-fpm php-php-common php-php-pear php-php-pdo php-php-pgsql php-php-opcache php-php-gd php-php-mbstring php-php-mcrypt php-php-xml php-php-mysqlnd
+systemctl enable php-php-fpm.service
 ```
 
 #Configuration#
 ```
-vim /etc/opt/remi/php72/php.ini
+vim /etc/php.ini
 ```
 > ####update the php.ini file with the contents below####
 
@@ -19,14 +16,14 @@ date.timezone = America/New_York
 ```
 
 ```
-vim /etc/opt/remi/php72/php-fpm.d/www.conf
+vim /etc/php-fpm.d/www.conf
 ```
 > ####update the www.conf file with the contents below####
 
  - comment out the 'listen' lines near the top
  - add these three lines
 ```
-listen = /var/run/php7-fpm-0.sock
+listen = /var/run/php-fpm-0.sock
 listen.owner = nginx
 listen.group = nginx
 ```
@@ -40,9 +37,9 @@ pm.max_children = 10
 
 Now rename and make a copy of the www.conf file and change the sock name
 ```
-mv /etc/opt/remi/php72/php-fpm.d/www.conf /etc/opt/remi/php72/php-fpm.d/www-0.conf
-cp /etc/opt/remi/php72/php-fpm.d/www-0.conf /etc/opt/remi/php72/php-fpm.d/www-1.conf
-vi /etc/opt/remi/php72/php-fpm.d/www-1.conf
+mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www-0.conf
+cp /etc/php-fpm.d/www-0.conf /etc/php-fpm.d/www-1.conf
+vi /etc/php-fpm.d/www-1.conf
 ```
 
-Change `listen = /var/run/php7-fpm-0.sock` to `listen = /var/run/php7-fpm-1.sock`
+Change `listen = /var/run/php-fpm-0.sock` to `listen = /var/run/php-fpm-1.sock`

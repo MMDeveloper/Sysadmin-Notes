@@ -3,14 +3,15 @@ As of the time of this writing, redis multi-master clustering is unstable. Perfo
 
 ```
 cd ~
-wget https://github.com/antirez/redis/archive/3.0.0-rc3.tar.gz
-gunzip 3.0.0-rc3.tar.gz
-tar -xvf 3.0.0-rc3.tar
-cd 3.0.0-rc3
+wget https://download.redis.io/redis-stable.tar.gz
+gunzip redis-stable.tar.gz
+tar -xvf redis-stable.tar
+cd redis-stable
+make BUILD_TLS=yes
 
 yum install gcc
 
-make && make install
+make install
 ```
 
 #Create Service File#

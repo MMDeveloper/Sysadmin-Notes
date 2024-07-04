@@ -3,15 +3,15 @@ This will be a short how-to on compiling the latest haproxy from source. This ro
 
 #Downloading Source#
 All we need to do is download the latest haproxy tarball from http://www.haproxy.org/#down
-The current version as of this writing is 2.3.14
+The current version as of this writing is 2.9.9
 
 ```
 cd /usr/src
 mkdir haproxy
 cd haproxy
-wget https://www.haproxy.org/download/1.8/src/haproxy-2.3.14tar.gz
-gunzip haproxy-2.3.14tar.gz
-tar -xvf haproxy-2.3.14tar
+wget https://www.haproxy.org/download/1.8/src/haproxy-2.9.9tar.gz
+gunzip haproxy-2.9.9tar.gz
+tar -xvf haproxy-2.9.9tar
 ```
 
 #Compiling#
