@@ -17,7 +17,7 @@ tar -xvf haproxy-2.9.9tar
 #Compiling#
 To compile haproxy from source, they require you specify `make` parameters. With this you can use pre-configured compile options or use a totally custom configuration. What fits my use-case is a prebuilt config plus a few extra custom parameters. You can learn about specific make targets at https://github.com/haproxy/haproxy
 ```
-make TARGET=linux-glibc USE_PCRE=1 USE_LIBCRYPT=1 USE_OPENSSL=yes USE_SYSTEMD=1
+make TARGET=linux-glibc USE_PCRE=1 USE_PCRE_JIT=1 USE_OPENSSL=1 USE_TFO=1 USE_LIBCRYPT=1 USE_THREAD=1 USE_SYSTEMD=1
 make install
 ```
 
